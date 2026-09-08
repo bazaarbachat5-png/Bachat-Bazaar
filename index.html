@@ -16,6 +16,40 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon.svg">
 <script type="application/ld+json" id="ldJsonProduct"></script>
+<script type="application/ld+json" id="ldJsonOrg"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const el = document.getElementById('ldJsonOrg');
+    if(el) el.textContent = JSON.stringify({
+      "@context":"https://schema.org", "@type":"OnlineStore", "name":"Bachat Bazaar",
+      "url": window.location.origin + window.location.pathname,
+      "description":"Meesho products resell karein ya apne products WhatsApp par order lein - saste daam, aasan shopping."
+    });
+  });
+</script>
+
+<!-- ================================================================
+     GOOGLE ANALYTICS — ISE APNI MEASUREMENT ID SE BHAREIN
+     Google Analytics (analytics.google.com) > Admin > Data Streams >
+     Web stream se "G-XXXXXXXXXX" jaisi ID copy karke GA_MEASUREMENT_ID
+     ki jagah paste karein. Jab tak ID nahi dalenge, ye script kuch nahi
+     karega (koi error nahi aayega).
+     ================================================================ -->
+<script>
+  const GA_MEASUREMENT_ID = "GA_MEASUREMENT_ID"; // <-- yahan apni ID dalein, e.g. "G-ABC1234XYZ"
+  if(GA_MEASUREMENT_ID && GA_MEASUREMENT_ID !== "GA_MEASUREMENT_ID"){
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    document.head.appendChild(gaScript);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GA_MEASUREMENT_ID);
+  }
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -69,6 +103,17 @@
   [data-theme="dark"] .low-stock-badge,[data-theme="dark"] .trending-badge{background:#3a2c08;color:#E3B54F;}
   [data-theme="dark"] .out-of-stock-badge{background:#3A1815;color:#F08A7C;}
   [data-theme="dark"] .theme-toggle-btn{background:rgba(255,255,255,.12);}
+  [data-theme="dark"] .chat-faq-btn{background:#212a42;color:#9DB3F2;}
+  [data-theme="dark"] .timeline-step .dot,[data-theme="dark"] .timeline-step .line{background:#3A3E4A;}
+  /* ---- Festival auto-theme: date ke hisaab se accent color + top ribbon ---- */
+  .festival-ribbon{display:none;align-items:center;justify-content:center;gap:8px;text-align:center;padding:9px 14px;font-size:13.5px;font-weight:700;letter-spacing:.2px;color:#fff;}
+  .festival-ribbon.show{display:flex;}
+  [data-festival] .festival-ribbon{background:linear-gradient(90deg,var(--fest-c1,var(--accent)),var(--fest-c2,var(--accent-dark)));}
+  [data-festival]{--accent:var(--fest-c1);--accent-dark:var(--fest-c2);}
+  [data-theme="dark"] .seg-vip{background:#3a2c08;color:#E3B54F;}
+  [data-theme="dark"] .seg-new{background:#152a42;color:#7DAEF2;}
+  [data-theme="dark"] .seg-inactive{background:#3A1815;color:#F08A7C;}
+  [data-theme="dark"] .seg-regular{background:#173625;color:#5FCB89;}
   *{box-sizing:border-box;}
   body{margin:0;font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);}
   h1,h2,h3,h4{font-family:'Poppins',sans-serif;margin:0;}
@@ -229,6 +274,53 @@
   .stat-card .stat-value{font-family:'Poppins',sans-serif;font-size:24px;font-weight:700;color:var(--navy);margin-top:4px;}
   .related-heading{font-size:17px;margin:34px 0 14px;}
   .track-box{max-width:480px;margin:40px auto;padding:0 24px;}
+
+  /* ---- Order tracking timeline ---- */
+  .order-timeline{display:flex;align-items:flex-start;margin:16px 0 6px;}
+  .timeline-step{flex:1;text-align:center;position:relative;min-width:0;}
+  .timeline-step .dot{width:26px;height:26px;border-radius:50%;background:var(--line);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin:0 auto 6px;position:relative;z-index:2;}
+  .timeline-step .line{position:absolute;top:13px;left:-50%;width:100%;height:3px;background:var(--line);z-index:1;}
+  .timeline-step:first-child .line{display:none;}
+  .timeline-step.done .dot{background:#1E7A34;}
+  .timeline-step.done .line{background:#1E7A34;}
+  .timeline-step.active .dot{background:var(--accent);box-shadow:0 0 0 4px rgba(242,153,74,.22);}
+  .timeline-step .label{font-size:10.5px;color:var(--muted);font-weight:600;line-height:1.3;padding:0 2px;}
+  .timeline-step.done .label,.timeline-step.active .label{color:var(--ink);}
+  .order-timeline.is-cancelled .timeline-step.done .dot,.order-timeline.is-cancelled .timeline-step.done .line{background:var(--danger);}
+
+  /* ---- Social share row ---- */
+  .share-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center;}
+  .share-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;}
+  .share-btn svg{width:16px;height:16px;}
+  .share-wa{background:var(--wa);}
+  .share-fb{background:#1877F2;}
+  .share-tw{background:#0F1419;}
+  .share-copy{background:var(--navy);}
+
+  /* ---- Product video/reel ---- */
+  .pd-video-wrap{border-radius:12px;overflow:hidden;background:#000;max-width:230px;margin-top:10px;aspect-ratio:9/16;}
+  .pd-video-wrap video,.pd-video-wrap iframe{width:100%;height:100%;object-fit:cover;border:0;display:block;}
+  .video-toggle-row{display:flex;gap:8px;margin-top:8px;}
+  .video-toggle-row button.active{background:var(--navy);color:#fff;}
+
+  /* ---- Live chat widget ---- */
+  .chat-fab{position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.28);z-index:200;}
+  .chat-fab svg{width:25px;height:25px;}
+  .chat-badge{position:absolute;top:-3px;right:-3px;background:var(--danger);color:#fff;font-size:10.5px;font-weight:700;border-radius:10px;padding:1px 6px;}
+  .chat-panel{position:fixed;bottom:86px;right:20px;width:320px;max-width:calc(100vw - 32px);max-height:72vh;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.28);display:none;flex-direction:column;overflow:hidden;z-index:200;}
+  .chat-panel.show{display:flex;}
+  .chat-panel-head{background:var(--navy);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+  .chat-panel-body{padding:16px;overflow-y:auto;flex:1;}
+  .chat-faq-btn{display:block;width:100%;text-align:left;background:#EEF1F8;color:var(--navy);padding:10px 12px;border-radius:9px;font-size:13px;font-weight:600;margin-bottom:8px;}
+  @media(max-width:480px){.chat-panel{right:10px;bottom:78px;width:calc(100vw - 20px);} .chat-fab{right:14px;bottom:14px;width:50px;height:50px;}}
+
+  /* ---- Customer segmentation tags ---- */
+  .seg-tag{display:inline-block;padding:2px 9px;border-radius:10px;font-size:10.5px;font-weight:700;margin-left:4px;white-space:nowrap;}
+  .seg-vip{background:#FFF4E3;color:#8A5A00;}
+  .seg-new{background:#EAF1FB;color:#1F63C9;}
+  .seg-inactive{background:#FBE9E7;color:var(--danger);}
+  .seg-regular{background:#E8F6EC;color:#1E7A34;}
+
   @media print{
     .topbar,.print-hide,footer{display:none !important;}
     body{background:#fff;}
@@ -317,18 +409,54 @@
   .tryon-btn-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
   .tryon-btn-row button{flex:1;min-width:120px;}
   .tryon-disclaimer{margin-top:12px;font-size:11.5px;color:var(--muted);background:var(--paper);border-radius:8px;padding:9px 11px;line-height:1.5;}
+  .tryon-generating{text-align:center;padding:38px 16px;}
+  .tryon-spinner{width:44px;height:44px;border:4px solid var(--line);border-top-color:var(--accent);border-radius:50%;margin:0 auto 16px;animation:tryonSpin 0.9s linear infinite;}
+  @keyframes tryonSpin{to{transform:rotate(360deg);}}
+  .tryon-generating-msg{font-size:14px;font-weight:600;color:var(--ink);}
+  .tryon-generating-hint{font-size:12.5px;color:var(--muted);margin-top:6px;}
+  .tryon-result-img{border-radius:12px;overflow:hidden;background:var(--paper);}
+  .tryon-result-img img{width:100%;display:block;}
+  /* ===== AI Style Advisor Modal (Try-On box reuse) ===== */
+  .style-advice-card{background:var(--paper);border-radius:12px;padding:13px 14px;margin-bottom:10px;border-left:3px solid var(--accent);}
+  .style-advice-card .sa-label{font-size:11.5px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;}
+  .style-advice-card .sa-text{font-size:13.5px;line-height:1.5;color:var(--ink);}
+  /* ===== Reels Showcase ===== */
+  .reels-strip{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;}
+  .reels-strip::-webkit-scrollbar{height:6px;}
+  .reel-thumb{flex:none;width:120px;aspect-ratio:9/16;border-radius:14px;overflow:hidden;position:relative;cursor:pointer;background:var(--navy-light);scroll-snap-align:start;box-shadow:0 4px 14px rgba(0,0,0,.15);}
+  .reel-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .reel-thumb .reel-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.18);}
+  .reel-thumb .reel-play svg{width:30px;height:30px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));}
+  .reel-thumb .reel-name{position:absolute;left:0;right:0;bottom:0;padding:8px 8px 7px;font-size:11px;font-weight:600;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.75));line-height:1.3;}
+  .reels-viewer{position:fixed;inset:0;background:#000;z-index:1000;display:none;}
+  .reels-viewer.show{display:block;}
+  .reels-viewer-close{position:absolute;top:14px;right:14px;z-index:5;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;border:none;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .reels-scroll{height:100%;overflow-y:auto;scroll-snap-type:y mandatory;}
+  .reel-slide{height:100%;width:100%;scroll-snap-align:start;position:relative;display:flex;align-items:center;justify-content:center;background:#000;}
+  .reel-slide video,.reel-slide iframe{width:100%;height:100%;object-fit:contain;border:none;}
+  .reel-slide .reel-info{position:absolute;left:0;right:0;bottom:0;padding:18px 16px 22px;background:linear-gradient(transparent,rgba(0,0,0,.85));color:#fff;}
+  .reel-slide .reel-info .ri-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;margin-bottom:2px;}
+  .reel-slide .reel-info .ri-price{font-size:14px;color:#FFD9A0;margin-bottom:10px;}
+  .reel-slide .reel-info .ri-btns{display:flex;gap:8px;}
+  .reel-slide .reel-info .ri-btns button,.reel-slide .reel-info .ri-btns a{border-radius:22px;padding:8px 16px;font-size:12.5px;font-weight:600;border:none;cursor:pointer;text-decoration:none;display:inline-block;}
+  .reel-slide .reel-info .ri-btns .ri-view{background:#fff;color:#111;}
+  .reel-slide .reel-info .ri-btns .ri-wish{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.5);}
 </style>
 <!-- Firebase (free database so this site works once hosted outside Claude) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 </head>
 <body>
 
 <div id="configWarning" style="display:none;background:#C0392B;color:#fff;text-align:center;padding:12px 16px;font-size:13.5px;font-weight:600;">
   ⚠️ Firebase config abhi set nahi hai — neeche &lt;script&gt; ke shuru mein <code>firebaseConfig</code> apni details se bharein. Guide neeche di gayi hai.
 </div>
+
+<div class="festival-ribbon" id="festivalRibbon"></div>
 
 <div class="topbar">
   <div class="topbar-inner">
@@ -341,6 +469,9 @@
 
 <footer id="siteFooter">Bachat Bazaar &mdash; Meesho reselling aur apne products, ek hi jagah</footer>
 
+<!-- Live Chat Widget (WhatsApp ke alawa on-site chat) -->
+<div id="chatWidgetRoot"></div>
+
 <!-- Selfie Try-On Modal -->
 <div class="tryon-overlay" id="tryonOverlay">
   <div class="tryon-box">
@@ -349,36 +480,70 @@
     <div class="tryon-sub" id="tryonSub">Apni selfie upload karein aur dekhein ki product aap par kaisa lagega.</div>
 
     <div id="tryonUploadStep">
-      <label class="tryon-upload-box" id="tryonUploadBox">
+      <div class="tryon-upload-box" id="tryonUploadBox" role="button" tabindex="0" aria-label="Selfie upload karein">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="6" width="18" height="14" rx="2.5"/><circle cx="12" cy="13" r="3.5"/><path d="M9 6l1.2-2h3.6L15 6"/></svg>
         <div class="tu-label">Selfie Upload Karein</div>
         <div class="tu-hint">Camera se khinchein ya gallery se chunein (JPG/PNG)</div>
-        <input type="file" accept="image/*" capture="user" id="tryonFileInput" style="display:none;">
-      </label>
+        <input type="file" accept="image/*" id="tryonFileInput" style="display:none;">
+      </div>
+      <div class="tryon-error" id="tryonError" style="display:none;color:#c0392b;font-size:12.5px;margin-top:10px;text-align:center;"></div>
     </div>
 
-    <div id="tryonEditStep" style="display:none;">
-      <div class="tryon-canvas-wrap">
-        <canvas id="tryonCanvas" width="360" height="480"></canvas>
+    <div id="tryonGeneratingStep" style="display:none;">
+      <div class="tryon-generating">
+        <div class="tryon-spinner"></div>
+        <div class="tryon-generating-msg" id="tryonGeneratingMsg">Photo taiyar ho rahi hai...</div>
+        <div class="tryon-generating-hint">Ismein 5-15 second lag sakte hain, kripya intezaar karein</div>
       </div>
-      <div class="tryon-hint-badge">Product ko ungli/mouse se drag karein &middot; niche se size aur angle set karein</div>
-      <div class="tryon-controls">
-        <div class="tryon-ctrl-row">
-          <label>Size</label>
-          <input type="range" id="tryonScaleRange" min="20" max="220" value="100">
-        </div>
-        <div class="tryon-ctrl-row">
-          <label>Angle</label>
-          <input type="range" id="tryonRotateRange" min="-45" max="45" value="0">
-        </div>
-      </div>
+    </div>
+
+    <div id="tryonResultStep" style="display:none;">
+      <div class="tryon-result-img"><img id="tryonResultImg" src="" alt="Try-on result"></div>
       <div class="tryon-btn-row">
         <button type="button" class="icon-btn icon-btn-edit" id="tryonRetakeBtn">🔄 Nayi Selfie</button>
         <button type="button" class="btn-primary" id="tryonDownloadBtn" style="margin-top:0;">⬇️ Photo Save Karein</button>
       </div>
-      <div class="tryon-disclaimer">⚠️ Ye ek preview/demo hai jisse andaza lagaya ja sakta hai &mdash; asli product ka size, fitting aur look thoda alag ho sakta hai.</div>
+      <div class="tryon-disclaimer">⚠️ Ye ek AI se banayi gayi preview hai jisse andaza lagaya ja sakta hai &mdash; asli product ka size, fitting aur look thoda alag ho sakta hai.</div>
     </div>
   </div>
+</div>
+
+<!-- AI Style Advisor Modal -->
+<div class="tryon-overlay" id="styleAdvisorOverlay">
+  <div class="tryon-box">
+    <button type="button" class="tryon-close" id="styleAdvisorCloseBtn">&times;</button>
+    <div class="tryon-title">✨ AI Style Advisor</div>
+    <div class="tryon-sub" id="styleAdvisorSub">Is product ke saath kya pehna jaaye, AI se suggestion lein.</div>
+
+    <div id="styleAdvisorIdleStep">
+      <div class="tryon-upload-box" id="styleAdvisorGetBtn" role="button" tabindex="0" aria-label="Style suggestion lein">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.9L12 3z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z"/></svg>
+        <div class="tu-label">Style Suggestion Payein</div>
+        <div class="tu-hint">AI batayega blouse/jewellery/footwear kya suit karega</div>
+      </div>
+      <div class="tryon-error" id="styleAdvisorError" style="display:none;color:#c0392b;font-size:12.5px;margin-top:10px;text-align:center;"></div>
+    </div>
+
+    <div id="styleAdvisorGeneratingStep" style="display:none;">
+      <div class="tryon-generating">
+        <div class="tryon-spinner"></div>
+        <div class="tryon-generating-msg">AI aapke liye style soch raha hai...</div>
+        <div class="tryon-generating-hint">Ismein 5-10 second lag sakte hain</div>
+      </div>
+    </div>
+
+    <div id="styleAdvisorResultStep" style="display:none;">
+      <div id="styleAdvisorResultBody"></div>
+      <button type="button" class="icon-btn icon-btn-edit" id="styleAdvisorRetryBtn" style="margin-top:4px;">🔄 Dobara Try Karein</button>
+      <div class="tryon-disclaimer">⚠️ Ye AI-generated general suggestions hain — apni pasand aur occasion ke hisaab se badal sakte hain.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Reels Showcase Viewer -->
+<div class="reels-viewer" id="reelsViewer">
+  <button type="button" class="reels-viewer-close" id="reelsViewerCloseBtn">&times;</button>
+  <div class="reels-scroll" id="reelsScroll"></div>
 </div>
 
 <script>
@@ -397,9 +562,13 @@ const firebaseConfig = {
 };
 const FIREBASE_CONFIGURED = firebaseConfig.apiKey !== "YOUR_API_KEY";
 let db = null;
+let firebaseAuth = null;
+let sellerOtpConfirmation = null;
+let sellerOtpRecaptcha = null;
 if(FIREBASE_CONFIGURED){
   firebase.initializeApp(firebaseConfig);
   db = firebase.firestore();
+  firebaseAuth = firebase.auth();
 } else {
   document.addEventListener('DOMContentLoaded', ()=>{
     const w = document.getElementById('configWarning');
@@ -410,7 +579,7 @@ if(FIREBASE_CONFIGURED){
 /* ---------------- Storage helpers ---------------- */
 /* Shared data (products, sellers, slider, settings) -> Firestore, so every
    visitor/seller/admin on any device sees the same live data. */
-const KEYS = { products:'products', sellers:'sellers', slider:'slider-images', settings:'store-settings', orders:'orders', coupons:'coupons', customers:'customers' };
+const KEYS = { products:'products', sellers:'sellers', slider:'slider-images', settings:'store-settings', orders:'orders', coupons:'coupons', customers:'customers', chatMessages:'chat-messages' };
 const COURIER_OPTIONS = [
   { name: 'Delhivery', url: 'https://www.delhivery.com/track-v2' },
   { name: 'DTDC', url: 'https://www.dtdc.in/tracking' },
@@ -448,6 +617,24 @@ function savePersonal(key, value){
   try{ localStorage.setItem(key, JSON.stringify(value)); return true; }
   catch(e){ return false; }
 }
+function addToSavedAddresses(addr){
+  if(!state.savedAddresses) state.savedAddresses = [];
+  const exists = state.savedAddresses.some(a=>a.address===addr.address && a.pincode===addr.pincode);
+  if(!exists){
+    state.savedAddresses.unshift(addr);
+    if(state.savedAddresses.length>5) state.savedAddresses = state.savedAddresses.slice(0,5);
+    savePersonal('saved-addresses', state.savedAddresses);
+  }
+}
+function savedAddressPickerHtml(formId){
+  if(!state.savedAddresses || !state.savedAddresses.length) return '';
+  return `<div class="field"><label>Saved Address Chunein (optional)</label>
+    <select id="${formId}AddrPicker" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px;">
+      <option value="">-- Naya address bharein --</option>
+      ${state.savedAddresses.map((a,i)=>`<option value="${i}">${esc(a.name)} - ${esc(a.address).slice(0,40)}${a.address.length>40?'...':''}, ${esc(a.city)}</option>`).join('')}
+    </select>
+  </div>`;
+}
 function delPersonal(key){
   try{ localStorage.removeItem(key); }catch(e){}
 }
@@ -483,6 +670,97 @@ function waLink(number, text){
 }
 function esc(s){ return (s||'').toString().replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
+/* ---------------- Seller Mobile OTP ---------------- */
+function normalizePhone(phone){
+  let p = String(phone||'').replace(/[^0-9+]/g,'');
+  if(p.startsWith('+')) return p;
+  if(p.startsWith('91') && p.length===12) return '+'+p;
+  if(p.length===10) return '+91'+p;
+  return p ? '+'+p : '';
+}
+function resetSellerOtp(){
+  sellerOtpConfirmation = null;
+  try{ if(sellerOtpRecaptcha){ sellerOtpRecaptcha.clear(); } }catch(e){}
+  sellerOtpRecaptcha = null;
+}
+function ensureSellerRecaptcha(containerId){
+  containerId = containerId || (document.getElementById('sellerSignupRecaptcha') ? 'sellerSignupRecaptcha' : 'sellerLoginRecaptcha');
+  if(!firebaseAuth) throw new Error('Firebase Auth configured nahi hai.');
+  if(sellerOtpRecaptcha) return sellerOtpRecaptcha;
+  sellerOtpRecaptcha = new firebase.auth.RecaptchaVerifier(containerId,{size:'invisible',callback:()=>{}});
+  return sellerOtpRecaptcha;
+}
+async function sendSellerOtp(phone){
+  if(!firebaseAuth) throw new Error('Firebase Phone Auth configured nahi hai.');
+  const verifier = ensureSellerRecaptcha();
+  sellerOtpConfirmation = await firebaseAuth.signInWithPhoneNumber(normalizePhone(phone), verifier);
+}
+async function verifySellerOtp(code){
+  if(!sellerOtpConfirmation) throw new Error('Pehle OTP bhejein.');
+  const result = await sellerOtpConfirmation.confirm(String(code||'').trim());
+  const user = result.user;
+  resetSellerOtp();
+  return user;
+}
+function sellerOtpNotice(scope){
+  return `<div id="${scope}OtpBox" class="panel-card" style="margin-top:12px;display:none;background:var(--soft);">
+    <div style="font-weight:700;margin-bottom:8px;">📱 OTP Verify Karein</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">Aapke mobile par 6 digit OTP bheja gaya hai.</div>
+    <div class="field"><label>OTP</label><input type="text" inputmode="numeric" maxlength="6" name="otp" id="${scope}OtpInput" placeholder="6 digit OTP"></div>
+    <button class="btn-primary" type="button" id="${scope}VerifyOtpBtn">OTP Verify Karein</button>
+    <button class="linklike" type="button" id="${scope}ResendOtpBtn" style="margin-left:10px;">OTP Dobara Bhejein</button>
+  </div><div id="${scope}Recaptcha" style="height:0;overflow:hidden;"></div>`;
+}
+
+/* ---------------- Password Hashing (Web Crypto API, no backend needed) ----------------
+   Purani (legacy) accounts mein password plain text mein tha. Ab naye signups aur
+   password-reset se salt + SHA-256 hash store hota hai, plain text kabhi save nahi hota.
+   Purane accounts jinke paas abhi bhi legacy plain "password" field hai, unka pehla
+   successful login automatically unhe hash format mein migrate kar deta hai. */
+function genSalt(){
+  const arr = new Uint8Array(16);
+  crypto.getRandomValues(arr);
+  return Array.from(arr).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+async function sha256Hex(text){
+  const data = new TextEncoder().encode(text);
+  const buf = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+async function hashPassword(password, salt){ return sha256Hex(salt+':'+password); }
+/* Naya password record banata hai (naya signup / password reset ke liye) */
+async function makePasswordRecord(password){
+  const passwordSalt = genSalt();
+  const passwordHash = await hashPassword(password, passwordSalt);
+  return { passwordSalt, passwordHash };
+}
+/* Diye gaye password ko record (user/seller/settings object) ke against verify karta hai.
+   Naya format (passwordHash+passwordSalt) aur purana legacy (plain field) dono support karta hai.
+   Field names customizable hain kyunki settings object mein field "adminPassword" kehlata hai,
+   customer/seller mein sirf "password". */
+async function verifyPassword(password, record, plainKey, hashKey, saltKey){
+  plainKey = plainKey || 'password'; hashKey = hashKey || 'passwordHash'; saltKey = saltKey || 'passwordSalt';
+  if(!record) return false;
+  if(record[hashKey] && record[saltKey]){
+    return (await hashPassword(password, record[saltKey])) === record[hashKey];
+  }
+  if(record[plainKey] != null){
+    return record[plainKey] === password;
+  }
+  return false;
+}
+/* Agar record abhi legacy plain password use kar raha hai, use hash format mein upgrade kar deta hai.
+   Sirf tabhi call karein jab password already verify ho chuka ho. Returns true agar migrate hua. */
+async function migratePasswordIfNeeded(record, password, plainKey, hashKey, saltKey){
+  plainKey = plainKey || 'password'; hashKey = hashKey || 'passwordHash'; saltKey = saltKey || 'passwordSalt';
+  if(record[hashKey]) return false; // already migrated
+  const { passwordHash, passwordSalt } = await makePasswordRecord(password);
+  record[hashKey] = passwordHash;
+  record[saltKey] = passwordSalt;
+  delete record[plainKey];
+  return true;
+}
+
 /* ---------------- Dark Mode ---------------- */
 function applyTheme(){
   document.documentElement.setAttribute('data-theme', state.theme==='dark' ? 'dark' : 'light');
@@ -492,6 +770,66 @@ function toggleTheme(){
   savePersonal('theme', state.theme);
   applyTheme();
   render();
+}
+
+/* ---------------- Festival Auto-Theme ----------------
+   Diwali/Holi/Independence Day jaise mauko par site ka accent color aur
+   ek top ribbon automatically badal jaata hai — kisi manual kaam ke bina.
+   - "fixed" festivals har saal ek hi date par aate hain (month-day check).
+   - "dated" festivals (Holi, Diwali) chandra calendar follow karte hain,
+     isliye har saal date badalti hai. In dono ke liye neeche "dates" mein
+     saal-war exact date daalni padegi (year ke shuru mein 5 min ka kaam) —
+     jab tak naya saal add na ho, feature us dated festival ke liye us naye
+     saal mein automatically inactive rahega (galat date dikhayega nahi).
+   Dates authoritative source: India ke gazetted holidays calendar. */
+const FESTIVAL_THEMES = [
+  { id:'republic-day', fixed:'01-26', days:1,  emoji:'🇮🇳', label:{hi:'Gantantra Diwas Mubarak Ho!', en:'Happy Republic Day!'}, c1:'#FF9933', c2:'#138808' },
+  { id:'holi',         dates:{2026:'2026-03-04', 2027:'2027-03-14'}, before:2, after:1, emoji:'🎨', label:{hi:'Holi Ki Hardik Shubhkamnayein!', en:'Happy Holi!'}, c1:'#EC4899', c2:'#8B5CF6' },
+  { id:'independence-day', fixed:'08-15', days:1, emoji:'🇮🇳', label:{hi:'Swatantrata Diwas Mubarak Ho!', en:'Happy Independence Day!'}, c1:'#FF9933', c2:'#138808' },
+  { id:'dussehra',     dates:{2026:'2026-10-20', 2027:'2027-10-09'}, before:1, after:1, emoji:'🏹', label:{hi:'Dussehre Ki Shubhkamnayein!', en:'Happy Dussehra!'}, c1:'#D97F2C', c2:'#C0392B' },
+  { id:'diwali',       dates:{2026:'2026-11-08', 2027:'2027-10-29'}, before:4, after:2, emoji:'🪔', label:{hi:'Diwali Ki Hardik Shubhkamnayein!', en:'Happy Diwali!'}, c1:'#F2994A', c2:'#D97F2C' },
+  { id:'christmas-newyear', fixed:'12-25', days:8, emoji:'🎄', label:{hi:'Christmas aur Naye Saal Ki Shubhkamnayein!', en:'Merry Christmas & Happy New Year!'}, c1:'#C0392B', c2:'#1F2A44' },
+];
+function getActiveFestival(){
+  const now = new Date();
+  const todayStr = now.toISOString().slice(0,10);
+  for(const f of FESTIVAL_THEMES){
+    if(f.fixed){
+      const year = now.getFullYear();
+      const start = new Date(`${year}-${f.fixed}T00:00:00`);
+      const end = new Date(start); end.setDate(end.getDate() + (f.days||1) - 1);
+      const startStr = start.toISOString().slice(0,10), endStr = end.toISOString().slice(0,10);
+      if(todayStr >= startStr && todayStr <= endStr) return f;
+    } else if(f.dates){
+      const mainStr = f.dates[now.getFullYear()];
+      if(!mainStr) continue; // is saal ke liye date update nahi hui — skip
+      const main = new Date(mainStr+'T00:00:00');
+      const start = new Date(main); start.setDate(start.getDate() - (f.before||0));
+      const end = new Date(main); end.setDate(end.getDate() + (f.after||0));
+      const startStr = start.toISOString().slice(0,10), endStr = end.toISOString().slice(0,10);
+      if(todayStr >= startStr && todayStr <= endStr) return f;
+    }
+  }
+  return null;
+}
+function applyFestivalTheme(){
+  const f = getActiveFestival();
+  const root = document.documentElement;
+  const ribbon = document.getElementById('festivalRibbon');
+  if(f){
+    root.setAttribute('data-festival', f.id);
+    root.style.setProperty('--fest-c1', f.c1);
+    root.style.setProperty('--fest-c2', f.c2);
+    if(ribbon){
+      ribbon.classList.add('show');
+      ribbon.innerHTML = `${f.emoji} ${esc(f.label[state.lang]||f.label.hi)} ${f.emoji}`;
+    }
+  } else {
+    root.removeAttribute('data-festival');
+    root.style.removeProperty('--fest-c1');
+    root.style.removeProperty('--fest-c2');
+    if(ribbon){ ribbon.classList.remove('show'); ribbon.innerHTML=''; }
+  }
 }
 
 /* ---------------- Multi-language (Hindi/English) ----------------
@@ -508,6 +846,8 @@ const I18N = {
     nav_admin_panel:'Admin Panel', nav_admin:'Admin',
     home_heading:'Hamare Products', home_sub:'Meesho se resell ya seedha WhatsApp par order — jo bhi aasan ho',
     search_label:'Search Karein', search_placeholder:'Product ka naam...',
+    voice_search_title:'Bolkar search karein', voice_search_listening:'Sun raha hoon... bolein',
+    voice_search_error:'Sun nahi paya, dobara try karein', voice_search_unsupported:'Ye browser voice search support nahi karta',
     category_label:'Category', category_all:'Sabhi Categories',
     maxprice_label:'Max Price (₹)', maxprice_placeholder:'Jaise: 1000',
     rating_label:'Sirf 4+ Star Products',
@@ -525,6 +865,8 @@ const I18N = {
     nav_admin_panel:'Admin Panel', nav_admin:'Admin',
     home_heading:'Our Products', home_sub:'Resell from Meesho or order directly on WhatsApp — whichever is easier',
     search_label:'Search', search_placeholder:'Product name...',
+    voice_search_title:'Search by voice', voice_search_listening:'Listening... please speak',
+    voice_search_error:'Could not hear you, try again', voice_search_unsupported:'This browser does not support voice search',
     category_label:'Category', category_all:'All Categories',
     maxprice_label:'Max Price (₹)', maxprice_placeholder:'e.g. 1000',
     rating_label:'4+ Star Products Only',
@@ -541,6 +883,7 @@ function t(key){ const d = I18N[state.lang] || I18N.hi; return d[key] != null ? 
 function toggleLang(){
   state.lang = state.lang==='hi' ? 'en' : 'hi';
   savePersonal('lang', state.lang);
+  applyFestivalTheme();
   render();
 }
 function svgBanner(bg, fg, text){
@@ -729,9 +1072,12 @@ const state = {
   customerTab: 'orders',
   slideIndex: 0,
   adminTab: 'own',
+  editOwnProductId: null,
+  editMeeshoProductId: null,
   sellerTab: 'products',
   courierEditIds: [],
   adminForgotStep: 1,
+  adminForgotUsername: null,
   msg: null,
   sellerSignupOk: false,
   selectedProductId: null,
@@ -765,7 +1111,15 @@ const state = {
   cart: [],                     // {productId, qty, size, color}, is browser mein save (personal)
   cartCouponCode: '',
   cartAppliedCoupon: null,
-  cartMsg: null
+  cartMsg: null,
+  // --- live chat widget ---
+  chatMessages: [],             // {id, name, phone, message, createdAt, read, reply}
+  chatOpen: false,
+  chatView: 'menu',             // menu | form | sent
+  // --- product video ---
+  pdShowVideo: false,
+  // --- admin customer segmentation ---
+  adminCustomerFilter: 'all'
 };
 
 const DEFAULT_SLIDES = [
@@ -780,7 +1134,7 @@ const DEFAULT_PRODUCTS = [
 
 /* ---------------- Init ---------------- */
 async function init(){
-  const [products, sellers, slider, settings, orders, coupons, customers, adminSession, sellerSession, customerSession] = await Promise.all([
+  const [products, sellers, slider, settings, orders, coupons, customers, chatMessages, adminSession, sellerSession, customerSession] = await Promise.all([
     loadShared(KEYS.products, null),
     loadShared(KEYS.sellers, null),
     loadShared(KEYS.slider, null),
@@ -788,6 +1142,7 @@ async function init(){
     loadShared(KEYS.orders, null),
     loadShared(KEYS.coupons, null),
     loadShared(KEYS.customers, null),
+    loadShared(KEYS.chatMessages, null),
     loadPersonal('admin-session'),
     loadPersonal('seller-session'),
     loadPersonal('customer-session')
@@ -799,6 +1154,7 @@ async function init(){
   state.orders = orders || [];
   state.coupons = coupons || [];
   state.customers = customers || [];
+  state.chatMessages = chatMessages || [];
   state.wishlist = loadPersonal('wishlist') || [];
   state.cart = loadPersonal('cart') || [];
   state.adminSession = adminSession;
@@ -811,8 +1167,10 @@ async function init(){
   state.theme = loadPersonal('theme') || 'light';
   state.lang = loadPersonal('lang') || 'hi';
   applyTheme();
+  applyFestivalTheme();
   const savedAddr = loadPersonal('last-order-address');
   state.savedAddress = savedAddr || null;
+  state.savedAddresses = loadPersonal('saved-addresses') || [];
   // Deep link support: agar URL mein #p=PRODUCT_ID ho, to seedha us product ka page kholein
   const hashMatch = window.location.hash.match(/^#p=(.+)$/);
   if(hashMatch){
@@ -830,6 +1188,7 @@ async function init(){
   if(!orders) await saveShared(KEYS.orders, state.orders);
   if(!coupons) await saveShared(KEYS.coupons, state.coupons);
   if(!customers) await saveShared(KEYS.customers, state.customers);
+  if(!chatMessages) await saveShared(KEYS.chatMessages, state.chatMessages);
 }
 
 /* Festival/Sale banner scheduler: har slide ya to plain image (hamesha dikhega) ya
@@ -907,7 +1266,7 @@ function startOrderPolling(){
   }, 15000);
 }
 
-function nav(view){ state.view = view; state.msg=null; state.cartMsg=null; if(view==='adminForgot') state.adminForgotStep=1; if(view==='customerForgot'){ state.customerForgotStep=1; state.customerForgotId=null; } render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function nav(view){ state.view = view; state.msg=null; state.cartMsg=null; if(view==='adminForgot'){ state.adminForgotStep=1; state.adminForgotUsername=null; } if(view==='customerForgot'){ state.customerForgotStep=1; state.customerForgotId=null; } render(); window.scrollTo({top:0,behavior:'smooth'}); }
 
 /* ---------------- Render ---------------- */
 function render(){
@@ -937,15 +1296,80 @@ function render(){
   if(state.view==='orderForm') updateUpiQr();
   if(state.view==='cartCheckout') updateUpiQrCart();
   updateProductSeoSchema();
+  updateSeoMeta();
+  renderChatWidget();
+}
+
+/* ---- SEO: Auto page title + meta description (har view ke hisaab se badalta hai) ---- */
+const SEO_DEFAULT_TITLE = 'Bachat Bazaar - Meesho Reselling aur Apne Products, Ek Hi Jagah';
+const SEO_DEFAULT_DESC = 'Bachat Bazaar par Meesho products resell karein ya apne products WhatsApp par order lein - saste daam, aasan shopping, ghar baithe delivery.';
+function updateSeoMeta(){
+  const metaDesc = document.querySelector('meta[name="description"]');
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  let title = SEO_DEFAULT_TITLE, desc = SEO_DEFAULT_DESC;
+  if(state.view==='productDetail'){
+    const p = state.products.find(x=>x.id===state.selectedProductId);
+    if(p){
+      title = `${p.name} - ₹${p.price} | Bachat Bazaar`;
+      desc = ((p.description ? p.description+' ' : '') + `${p.name} ab Bachat Bazaar par best price mein order karein - ${p.category||'quality product'}, fast delivery.`).slice(0,160);
+    }
+  } else if(state.view==='trackOrder'){
+    title = 'Order Track Karein | Bachat Bazaar';
+    desc = 'Apna Bachat Bazaar order ka live status - Order Placed, Confirmed, Shipped, Delivered - turant check karein.';
+  } else if(state.view==='wishlist'){
+    title = 'Aapki Wishlist | Bachat Bazaar';
+    desc = 'Apni pasand ke products ek jagah save karein Bachat Bazaar wishlist mein.';
+  } else if(state.view==='cart' || state.view==='cartCheckout'){
+    title = 'Aapka Cart | Bachat Bazaar';
+    desc = 'Apna cart check karein aur order confirm karein Bachat Bazaar par.';
+  } else if(state.view==='customerLogin' || state.view==='customerSignup'){
+    title = 'Customer Login / Signup | Bachat Bazaar';
+  } else if(state.view==='sellerLogin' || state.view==='sellerSignup'){
+    title = 'Seller Panel | Bachat Bazaar';
+    desc = 'Bachat Bazaar par seller bankar apne products bechein, ghar baithe.';
+  }
+  document.title = title;
+  if(metaDesc) metaDesc.setAttribute('content', desc);
+  if(ogTitle) ogTitle.setAttribute('content', title);
+  if(ogDesc) ogDesc.setAttribute('content', desc);
+}
+
+/* ---------------- Voice Search (Hindi/English) ----------------
+   Browser ka built-in Web Speech API use karta hai — koi extra
+   library ya paid service nahi chahiye. Chrome/Android mein hi-IN
+   support built-in hai. */
+function voiceSearchSupported(){
+  return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+}
+function startVoiceSearch(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ alert(t('voice_search_unsupported')); return; }
+  const btn = document.getElementById('voiceSearchBtn');
+  const recognition = new SR();
+  recognition.lang = state.lang==='en' ? 'en-IN' : 'hi-IN';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  if(btn){ btn.textContent = '🔴'; btn.disabled = true; btn.title = t('voice_search_listening'); }
+  recognition.onresult = (e)=>{
+    const heard = e.results && e.results[0] && e.results[0][0] && e.results[0][0].transcript;
+    if(heard){ state.homeSearch = heard.trim(); render(); }
+  };
+  recognition.onerror = ()=>{ alert(t('voice_search_error')); };
+  recognition.onend = ()=>{
+    const b = document.getElementById('voiceSearchBtn');
+    if(b){ b.textContent = '🎤'; b.disabled = false; b.title = t('voice_search_title'); }
+  };
+  try{ recognition.start(); }catch(e){ alert(t('voice_search_error')); }
 }
 
 /* ---- SEO: JSON-LD Product structured data (Google search rich results) ---- */
 function updateProductSeoSchema(){
   const el = document.getElementById('ldJsonProduct');
   if(!el) return;
-  if(state.view!=='productDetail'){ el.textContent=''; return; }
+  if(state.view!=='productDetail'){ el.textContent=''; const bc=document.getElementById('ldJsonBreadcrumb'); if(bc) bc.textContent=''; return; }
   const p = state.products.find(x=>x.id===state.selectedProductId);
-  if(!p){ el.textContent=''; return; }
+  if(!p){ el.textContent=''; const bc=document.getElementById('ldJsonBreadcrumb'); if(bc) bc.textContent=''; return; }
   const reviews = p.reviews || [];
   const avgRating = reviews.length ? (reviews.reduce((s,r)=>s+r.rating,0)/reviews.length) : null;
   const schema = {
@@ -956,6 +1380,23 @@ function updateProductSeoSchema(){
   };
   if(avgRating) schema.aggregateRating = { '@type':'AggregateRating', ratingValue: avgRating.toFixed(1), reviewCount: reviews.length };
   el.textContent = JSON.stringify(schema);
+  updateBreadcrumbSchema(p);
+}
+
+/* ---- SEO: JSON-LD Breadcrumb structured data (category path Google search mein) ---- */
+function updateBreadcrumbSchema(p){
+  let el = document.getElementById('ldJsonBreadcrumb');
+  if(!el){
+    el = document.createElement('script');
+    el.type = 'application/ld+json';
+    el.id = 'ldJsonBreadcrumb';
+    document.head.appendChild(el);
+  }
+  const baseUrl = window.location.origin + window.location.pathname;
+  const items = [{ '@type':'ListItem', position:1, name:'Home', item: baseUrl }];
+  if(p.category) items.push({ '@type':'ListItem', position:2, name:p.category, item: baseUrl+'#category='+encodeURIComponent(p.category) });
+  items.push({ '@type':'ListItem', position:items.length+1, name:p.name, item: baseUrl+'#product='+p.id });
+  el.textContent = JSON.stringify({ '@context':'https://schema.org', '@type':'BreadcrumbList', itemListElement: items });
 }
 
 /* ----- UPI ID format check (e.g. name@paytm, 98xxxxxxxx@ybl) ----- */
@@ -1111,6 +1552,18 @@ function viewHome(){
   const slides = activeSlides.map((s,i)=>`<div class="slide ${i===state.slideIndex?'show':''}"><img src="${esc(slideImageSrc(s))}" alt="banner"></div>`).join('');
   const dots = activeSlides.map((_,i)=>`<span class="${i===state.slideIndex?'active':''}" data-dot="${i}"></span>`).join('');
   let visible = state.products.filter(p => p.type==='meesho' || !p.sellerId || p.status==='approved');
+  const reelProducts = visible.filter(p => p.videoUrl && p.videoUrl.trim());
+  const reelsBlock = reelProducts.length ? `
+    <div class="wrap" style="padding-bottom:0;">
+      <div class="section-head" style="margin-bottom:8px;"><div><h2 style="font-size:19px;">🎬 Reels</h2><p>Video mein dekhein, kaisa lagta hai</p></div></div>
+      <div class="reels-strip" id="reelsStrip">
+        ${reelProducts.map(p=>`<div class="reel-thumb" data-reel-open="${p.id}">
+          <img src="${esc((p.images&&p.images[0])||p.image)}" alt="${esc(p.name)}" loading="lazy">
+          <div class="reel-play"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="reel-name">${esc(p.name)}</div>
+        </div>`).join('')}
+      </div>
+    </div>` : '';
   // ---- search ----
   if(state.homeSearch.trim()){
     const q = state.homeSearch.trim().toLowerCase();
@@ -1138,13 +1591,19 @@ function viewHome(){
     <div class="slider">
       <div class="slider-track" id="sliderTrack">${slides}<div class="slider-dots">${dots}</div></div>
     </div>
+    ${reelsBlock}
     <div class="wrap">
       <div class="section-head">
         <div><h2>${t('home_heading')}</h2><p>${t('home_sub')}</p></div>
       </div>
       <div class="panel-card" style="margin-bottom:20px;">
         <div class="home-filter-row">
-          <div class="field" style="margin-bottom:0;"><label>${t('search_label')}</label><input type="text" id="homeSearchInput" placeholder="${t('search_placeholder')}" value="${esc(state.homeSearch)}"></div>
+          <div class="field" style="margin-bottom:0;"><label>${t('search_label')}</label>
+            <div style="display:flex;gap:8px;">
+              <input type="text" id="homeSearchInput" placeholder="${t('search_placeholder')}" value="${esc(state.homeSearch)}" style="flex:1;">
+              ${voiceSearchSupported() ? `<button type="button" id="voiceSearchBtn" title="${t('voice_search_title')}" style="flex:none;width:44px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:17px;">🎤</button>` : ''}
+            </div>
+          </div>
           <div class="field" style="margin-bottom:0;"><label>${t('category_label')}</label>
             <select id="homeCategorySelect"><option value="">${t('category_all')}</option>${categories.map(c=>`<option value="${esc(c)}" ${state.homeCategory===c?'selected':''}>${esc(c)}</option>`).join('')}</select>
           </div>
@@ -1158,6 +1617,24 @@ function viewHome(){
       <div class="grid">${cards}</div>
     </div>
   `;
+}
+/* ----- Product Video/Reel embed: YouTube link, Instagram Reel link, ya direct .mp4 file sab support ----- */
+function videoEmbedHtml(url){
+  if(!url) return '';
+  const u = url.trim();
+  const ytMatch = u.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w-]{6,})/);
+  if(ytMatch){
+    return `<div class="pd-video-wrap"><iframe src="https://www.youtube.com/embed/${ytMatch[1]}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+  }
+  const igMatch = u.match(/instagram\.com\/(?:reel|p)\/([\w-]+)/);
+  if(igMatch){
+    return `<div class="pd-video-wrap" style="aspect-ratio:1/1;"><iframe src="https://www.instagram.com/reel/${igMatch[1]}/embed" allowfullscreen></iframe></div>`;
+  }
+  if(/\.(mp4|webm|ogg)(\?.*)?$/i.test(u)){
+    return `<div class="pd-video-wrap"><video src="${esc(u)}" controls playsinline></video></div>`;
+  }
+  // Unknown link format ho to bhi ek "Video Dekhein" link de dein
+  return `<a href="${esc(u)}" target="_blank" rel="noopener" class="icon-btn icon-btn-edit" style="margin-top:8px;">▶ Video Dekhein</a>`;
 }
 function productAvgRating(p){
   const reviews = p.reviews || [];
@@ -1187,7 +1664,7 @@ function productCard(p){
       <button class="wish-btn" data-toggle-wish="${p.id}" title="Wishlist">
         <svg viewBox="0 0 24 24" fill="${wished?'#e0245e':'none'}" stroke="#e0245e" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.6 2.3 5 5.8 5c2 0 3.4 1 6.2 3.6C14.8 6 16.2 5 18.2 5c3.5 0 5.3 3.6 3.8 6.9C19.5 16.4 12 21 12 21z"/></svg>
       </button>
-      <div class="card-img" data-view-product="${p.id}" style="cursor:pointer;"><img src="${esc((p.images&&p.images[0])||p.image)}" alt="${esc(p.name)}"></div>
+      <div class="card-img" data-view-product="${p.id}" style="cursor:pointer;"><img src="${esc((p.images&&p.images[0])||p.image)}" alt="${esc(p.name)}" loading="lazy"></div>
     </div>
     <div class="card-body">
       ${p.category ? `<div class="card-category">${esc(p.category)}</div>` : ''}
@@ -1232,14 +1709,16 @@ function viewOrderForm(){
       ${state.msg && state.msg.scope==='order' ? msgBox(state.msg) : ''}
       ${state.msg && state.msg.scope==='order' && state.msg.type==='ok' && state.shareOrder ? `<button type="button" class="icon-btn icon-btn-edit" id="shareOrderBtn" style="margin:-10px 0 16px;">Doston Ko WhatsApp Par Share Karein</button>` : ''}
       <form id="orderForm">
-        <div class="field"><label>Aapka Naam</label><input type="text" name="custName" value="${esc(sa.name||'')}" required></div>
-        <div class="field"><label>Phone Number</label><input type="tel" name="custPhone" id="custPhoneInput" placeholder="10 digit mobile number" value="${esc(sa.phone||'')}" required></div>
-        <div class="field"><label>Poora Address (Ghar/Gali/Landmark)</label><textarea name="custAddress" rows="3" required>${esc(sa.address||'')}</textarea></div>
+        ${savedAddressPickerHtml('order')}
+        <div class="field"><label>Aapka Naam</label><input type="text" name="custName" id="orderCustName" value="${esc(sa.name||'')}" required></div>
+        <div class="field"><label>Phone Number</label><input type="tel" name="custPhone" id="custPhoneInput" value="${esc(sa.phone||'')}" placeholder="10 digit mobile number" required></div>
+        <div class="field"><label>Poora Address (Ghar/Gali/Landmark)</label><textarea name="custAddress" id="orderCustAddress" rows="3" required>${esc(sa.address||'')}</textarea></div>
         <div class="form-row">
-          <div class="field"><label>Shehar (City)</label><input type="text" name="custCity" value="${esc(sa.city||'')}" required></div>
-          <div class="field"><label>Pincode</label><input type="text" name="custPincode" value="${esc(sa.pincode||'')}" required></div>
+          <div class="field"><label>Shehar (City)</label><input type="text" name="custCity" id="orderCustCity" value="${esc(sa.city||'')}" required></div>
+          <div class="field"><label>Pincode</label><input type="text" name="custPincode" id="orderCustPincode" value="${esc(sa.pincode||'')}" required></div>
         </div>
         <div class="field"><label>Quantity</label><input type="number" name="custQty" min="1" value="1" required></div>
+        <div class="field"><label>Delivery Instructions (optional) &mdash; jaise: Gate pe rakh dein, Call karke aayein</label><input type="text" name="deliveryInstructions" placeholder="Koi special instruction ho to likhein"></div>
         <div class="field">
           <label>Coupon Code (optional)</label>
           <div style="display:flex;gap:8px;">
@@ -1396,7 +1875,7 @@ function viewProductDetail(){
       </div>
     </div>` : '';
   const gallery = (p.images && p.images.length>1) ? `<div style="display:flex;gap:8px;margin-top:8px;">
-      ${p.images.map((img,i)=>`<img src="${esc(img)}" data-gallery-thumb="${i}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ${i===0?'var(--navy)':'var(--line)'};">`).join('')}
+      ${p.images.map((img,i)=>`<img src="${esc(img)}" data-gallery-thumb="${i}" loading="lazy" style="width:56px;height:56px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ${i===0?'var(--navy)':'var(--line)'};">`).join('')}
     </div>` : '';
   const wished = state.wishlist.includes(p.id);
   const related = state.products.filter(x => x.id!==p.id && x.category && x.category===p.category && (x.type==='meesho' || !x.sellerId || x.status==='approved')).slice(0,4);
@@ -1408,6 +1887,7 @@ function viewProductDetail(){
         <div class="card-img-wrap"><button class="wish-btn" data-toggle-wish="${p.id}" title="Wishlist"><svg viewBox="0 0 24 24" fill="${wished?'#e0245e':'none'}" stroke="#e0245e" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.6 2.3 5 5.8 5c2 0 3.4 1 6.2 3.6C14.8 6 16.2 5 18.2 5c3.5 0 5.3 3.6 3.8 6.9C19.5 16.4 12 21 12 21z"/></svg></button>
         <div class="pd-img" id="pdMainImg"><img src="${esc((p.images&&p.images[0])||p.image)}" alt="${esc(p.name)}"></div></div>
         ${gallery}
+        ${p.videoUrl ? videoEmbedHtml(p.videoUrl) : ''}
       </div>
       <div class="pd-info">
         ${p.category ? `<div class="card-category">${esc(p.category)}</div>` : ''}
@@ -1422,8 +1902,17 @@ function viewProductDetail(){
         ${highlightsBlock}
         <div class="pd-btn-row">${btn}
           ${cartBtnDetail}
-          <button type="button" class="icon-btn icon-btn-edit" id="shareProductBtn" style="margin-top:8px;">Doston Ko Share Karein</button>
           <button type="button" class="icon-btn icon-btn-edit" data-tryon-open="${p.id}" style="margin-top:8px;">📸 Selfie Se Try Karein</button>
+          <button type="button" class="icon-btn icon-btn-edit" data-style-advisor-open="${p.id}" style="margin-top:8px;">✨ AI Style Advisor</button>
+        </div>
+        <div style="margin-top:6px;">
+          <div style="font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:6px;">Doston Ko Share Karein</div>
+          <div class="share-row">
+            <button type="button" class="share-btn share-wa" data-share-product="whatsapp" data-product-id="${p.id}" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.63-1.28 1.2-1.77 1.27-.45.07-1.02.1-1.65-.1-.38-.12-.87-.28-1.5-.55-2.64-1.14-4.36-3.8-4.5-3.98-.13-.18-1.08-1.44-1.08-2.74 0-1.3.68-1.94.92-2.2.24-.27.53-.33.7-.33h.5c.16 0 .38-.03.58.44.22.53.75 1.83.82 1.96.07.13.11.29.02.47-.09.18-.13.29-.26.44-.13.16-.28.35-.4.47-.13.13-.27.27-.12.53.16.27.7 1.16 1.5 1.88 1.04.93 1.91 1.22 2.18 1.36.27.13.42.11.58-.07.16-.18.67-.78.85-1.05.18-.27.36-.22.6-.13.24.09 1.53.72 1.79.85.27.13.44.2.5.31.07.13.07.72-.15 1.35z"/></svg></button>
+            <button type="button" class="share-btn share-fb" data-share-product="facebook" data-product-id="${p.id}" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.45 2.91h-2.33V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg></button>
+            <button type="button" class="share-btn share-tw" data-share-product="twitter" data-product-id="${p.id}" title="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7.1l-5.5-7.2L4.4 22H1.3l8.1-9.3L1 2h7.3l5 6.6L18.9 2zm-1.2 18h1.7L7.4 4H5.6l12.1 16z"/></svg></button>
+            <button type="button" class="share-btn share-copy" data-share-product="copy" data-product-id="${p.id}" title="Link Copy Karein"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
+          </div>
         </div>
       </div>
     </div>
@@ -1447,7 +1936,10 @@ function viewTrackOrder(){
       </div>
       <div style="font-size:13.5px;color:var(--muted);margin-bottom:6px;">Order ID: <b style="color:var(--ink);">${esc(o.orderId)}</b> &middot; ${esc(o.orderTime)}</div>
       <div style="margin:10px 0;"><span class="status-pill ${orderStatusClass(o.status)}" style="font-size:14px;padding:6px 14px;">${esc(o.status)}</span></div>
-      <div style="font-size:13px;color:var(--muted);">Delivery: ${esc(o.custAddress)}, ${esc(o.custCity)} - ${esc(o.custPincode)}</div>
+      ${orderTimelineHtml(o.status)}
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;">Delivery: ${esc(o.custAddress)}, ${esc(o.custCity)} - ${esc(o.custPincode)}</div>
+      ${o.deliveryInstructions ? `<div style="font-size:12.5px;color:var(--muted);margin-top:4px;">📝 Instructions: ${esc(o.deliveryInstructions)}</div>` : ''}
+      ${o.estimatedDeliveryDate ? `<div style="font-size:13px;color:var(--ink);margin-top:6px;font-weight:600;">📅 Estimated Delivery: ${esc(o.estimatedDeliveryDate)}</div>` : ''}
       <button type="button" class="icon-btn icon-btn-edit" data-invoice-order="${o.id}" style="margin-top:10px;">📄 Invoice Download Karein</button>
       ${(o.courierCompany && o.courierCompany!=='Apna Delivery Boy') ? (()=>{
         const c = COURIER_OPTIONS.find(x=>x.name===o.courierCompany);
@@ -1458,7 +1950,7 @@ function viewTrackOrder(){
           ${(c && c.url) ? `<a href="${esc(c.url)}" target="_blank" class="icon-btn icon-btn-edit" style="display:inline-block;margin-top:8px;text-decoration:none;">${esc(o.courierCompany)} Par Track Karein</a>` : ''}
         </div>`;
       })() : ''}
-      ${canCancel ? `<button class="btn" style="background:var(--danger);color:#fff;margin-top:16px;" id="cancelOrderBtn" data-cancel-order="${o.id}">Order Cancel Karein</button>` : (o.status==='Cancelled' ? `<div style="margin-top:14px;color:var(--danger);font-size:13.5px;">Ye order cancel ho chuka hai.${o.cancelReason?'<br>Wajah: '+esc(o.cancelReason):''}</div>` : (o.status==='Returned' ? `<div style="margin-top:14px;color:#B5570B;font-size:13.5px;">Ye order return ho chuka hai.${o.returnReason?'<br>Wajah: '+esc(o.returnReason):''}</div>` : `<div style="margin-top:14px;color:var(--muted);font-size:13px;">Order confirm ho chuka hai, ab cancel nahi kiya ja sakta &mdash; sahayata ke liye WhatsApp par sampark karein.</div>`))}
+      ${canCancel ? `<button class="btn" style="background:var(--danger);color:#fff;margin-top:16px;" id="cancelOrderBtn" data-cancel-order="${o.id}">Order Cancel Karein</button>` : (o.status==='Cancelled' ? `<div style="margin-top:14px;color:var(--danger);font-size:13.5px;">Ye order cancel ho chuka hai.${o.cancelReason?'<br>Wajah: '+esc(o.cancelReason):''}</div>` : (o.status==='Returned' ? `<div style="margin-top:14px;color:#B5570B;font-size:13.5px;">Ye order return ho chuka hai.${o.returnReason?'<br>Wajah: '+esc(o.returnReason):''}</div>` : (o.status==='Delivered' ? `<button class="icon-btn icon-btn-edit" data-exchange-order="${o.id}" style="margin-top:16px;">🔄 Exchange Request Karein</button>` : (o.status==='Exchange Requested' ? `<div style="margin-top:14px;color:#B5570B;font-size:13.5px;">Exchange request bheji ja chuki hai, jald hi contact kiya jayega.</div>` : `<div style="margin-top:14px;color:var(--muted);font-size:13px;">Order confirm ho chuka hai, ab cancel nahi kiya ja sakta &mdash; sahayata ke liye WhatsApp par sampark karein.</div>`))))}
     </div>`;
   }
   return `<div class="track-box">
@@ -1582,13 +2074,15 @@ function viewCartCheckout(){
       </div>
       ${state.cartMsg ? msgBox(state.cartMsg) : ''}
       <form id="cartCheckoutForm">
-        <div class="field"><label>Aapka Naam</label><input type="text" name="custName" value="${esc(sa.name||'')}" required></div>
-        <div class="field"><label>Phone Number</label><input type="tel" name="custPhone" placeholder="10 digit mobile number" value="${esc(sa.phone||'')}" required></div>
-        <div class="field"><label>Poora Address (Ghar/Gali/Landmark)</label><textarea name="custAddress" rows="3" required>${esc(sa.address||'')}</textarea></div>
+        ${savedAddressPickerHtml('cart')}
+        <div class="field"><label>Aapka Naam</label><input type="text" name="custName" id="cartCustName" value="${esc(sa.name||'')}" required></div>
+        <div class="field"><label>Phone Number</label><input type="tel" name="custPhone" id="cartCustPhone" value="${esc(sa.phone||'')}" placeholder="10 digit mobile number" required></div>
+        <div class="field"><label>Poora Address (Ghar/Gali/Landmark)</label><textarea name="custAddress" id="cartCustAddress" rows="3" required>${esc(sa.address||'')}</textarea></div>
         <div class="form-row">
-          <div class="field"><label>Shehar (City)</label><input type="text" name="custCity" value="${esc(sa.city||'')}" required></div>
-          <div class="field"><label>Pincode</label><input type="text" name="custPincode" value="${esc(sa.pincode||'')}" required></div>
+          <div class="field"><label>Shehar (City)</label><input type="text" name="custCity" id="cartCustCity" value="${esc(sa.city||'')}" required></div>
+          <div class="field"><label>Pincode</label><input type="text" name="custPincode" id="cartCustPincode" value="${esc(sa.pincode||'')}" required></div>
         </div>
+        <div class="field"><label>Delivery Instructions (optional) &mdash; jaise: Gate pe rakh dein, Call karke aayein</label><input type="text" name="deliveryInstructions" placeholder="Koi special instruction ho to likhein"></div>
         <div class="field">
           <label>Coupon Code (optional)</label>
           <div style="display:flex;gap:8px;">
@@ -1754,7 +2248,7 @@ function viewCustomerDash(){
       ${myOrders.map(o=>{
         const c = COURIER_OPTIONS.find(x=>x.name===o.courierCompany);
         const courierInfo = o.courierCompany ? `${esc(o.courierCompany)}${o.trackingNumber?' &mdash; '+esc(o.trackingNumber):''}${(c&&c.url)?` <a href="${esc(c.url)}" target="_blank" class="icon-btn icon-btn-edit" style="text-decoration:none;padding:3px 7px;font-size:10.5px;">Track</a>`:''}` : '<span style="color:var(--muted);">-</span>';
-        return `<tr><td>${esc(o.orderId)}<br><span style="color:var(--muted);font-size:11.5px;">${esc(o.orderTime)}</span></td><td>${esc(o.productName)}</td><td><span class="status-pill ${orderStatusClass(o.status)}">${esc(o.status)}</span></td><td>${courierInfo}</td><td>${state.products.find(p=>p.id===o.productId) ? `<button type="button" class="icon-btn icon-btn-edit" data-reorder="${o.id}">Reorder</button>` : ''}<button type="button" class="icon-btn icon-btn-edit" data-invoice-order="${o.id}" style="margin-top:3px;">Invoice</button></td></tr>`;
+        return `<tr><td>${esc(o.orderId)}<br><span style="color:var(--muted);font-size:11.5px;">${esc(o.orderTime)}</span></td><td>${esc(o.productName)}</td><td><span class="status-pill ${orderStatusClass(o.status)}">${esc(o.status)}</span></td><td>${courierInfo}</td><td><button type="button" class="icon-btn icon-btn-edit" data-view-timeline="${o.id}">📍 Timeline</button>${state.products.find(p=>p.id===o.productId) ? `<button type="button" class="icon-btn icon-btn-edit" data-reorder="${o.id}" style="margin-top:3px;">Reorder</button>` : ''}<button type="button" class="icon-btn icon-btn-edit" data-invoice-order="${o.id}" style="margin-top:3px;">Invoice</button></td></tr>`;
       }).join('')}
       </table></div>` : '<div class="empty">Abhi tak koi order nahi hai.</div>'}
   </div>`;
@@ -1786,30 +2280,38 @@ function viewCustomerDash(){
 function viewSellerLogin(){
   return `<div class="auth-page"><div class="auth-card">
     <h2>Seller Login</h2>
-    <div class="auth-sub">Apna account access karein</div>
+    <div class="auth-sub">Mobile OTP se secure login karein</div>
     ${state.msg ? msgBox(state.msg) : ''}
     <form id="sellerLoginForm">
-      <div class="field"><label>Email</label><input type="email" name="email" required></div>
-      <div class="field"><label>Password</label><input type="password" name="password" required></div>
-      <div class="forgot-row"><button type="button" class="linklike" data-nav="sellerForgot">Password bhool gaye?</button></div>
-      <button class="btn-primary" type="submit">Login Karein</button>
+      <div class="field"><label>Mobile Number</label><input type="text" name="phone" inputmode="tel" placeholder="10 digit mobile number" required></div>
+      <button class="btn-primary" type="submit">OTP Bhejein</button>
+      ${sellerOtpNotice('sellerLogin')}
     </form>
+    <div class="link-row">Email/password se login? <button class="linklike" type="button" id="sellerPasswordLoginBtn">Legacy Login</button></div>
+    <div id="sellerLegacyLogin" style="display:none;margin-top:14px;">
+      <form id="sellerLegacyLoginForm">
+        <div class="field"><label>Email</label><input type="email" name="email"></div>
+        <div class="field"><label>Password</label><input type="password" name="password"></div>
+        <button class="btn-primary" type="submit">Login Karein</button>
+      </form>
+    </div>
     <div class="link-row">Account nahi hai? <button class="linklike" data-nav="sellerSignup">Seller banein</button></div>
   </div></div>`;
 }
 function viewSellerSignup(){
   return `<div class="auth-page"><div class="auth-card">
     <h2>Seller Banein</h2>
-    <div class="auth-sub">Approve hone ke baad aap products list kar sakenge</div>
+    <div class="auth-sub">Mobile OTP verify hone ke baad application Admin approval ke liye jayegi</div>
     ${state.msg ? msgBox(state.msg) : ''}
     <form id="sellerSignupForm">
       <div class="field"><label>Naam</label><input type="text" name="name" required></div>
       <div class="field"><label>Email</label><input type="email" name="email" required></div>
-      <div class="field"><label>WhatsApp Number</label><input type="text" name="phone" placeholder="91XXXXXXXXXX" required></div>
-      <div class="field"><label>Location (Shehar)</label><input type="text" name="location" placeholder="Jaise: Bhopal, MP" required></div>
+      <div class="field"><label>Mobile Number</label><input type="text" name="phone" inputmode="tel" placeholder="10 digit mobile number" required></div>
+      <div class="field"><label>Location (Shehar)</label><input type="text" name="location" placeholder="Jaise: Jabalpur, MP" required></div>
       <div class="field"><label>UPI ID (Payout ke liye, baad mein bhi add kar sakte hain)</label><input type="text" name="upiId" placeholder="yourname@paytm"></div>
-      <div class="field"><label>Password</label><input type="password" name="password" required></div>
-      <button class="btn-primary" type="submit">Signup Karein</button>
+      <div class="field"><label>Password (backup login ke liye)</label><input type="password" name="password" minlength="6" required></div>
+      <button class="btn-primary" type="submit">OTP Bhejein</button>
+      ${sellerOtpNotice('sellerSignup')}
     </form>
     <div class="link-row">Pehle se account hai? <button class="linklike" data-nav="sellerLogin">Login karein</button></div>
   </div></div>`;
@@ -1830,12 +2332,14 @@ function viewSellerDash(){
   const seller = state.sellers.find(s=>s.id===state.sellerSession?.id);
   if(!seller){ state.sellerSession=null; delPersonal('seller-session'); return viewSellerLogin(); }
   const pillClass = seller.status==='approved'?'status-approved':seller.status==='rejected'?'status-rejected':'status-pending';
-  const statusText = seller.status==='approved'?'Approved':seller.status==='rejected'?'Reject ho gaya':'Pending Approval';
+  const statusText = seller.status==='approved'?'Approved':seller.status==='rejected'?'Reject ho gaya':seller.status==='suspended'?'Suspended':'Pending Approval';
   let body = '';
   if(seller.status==='pending'){
     body = `<div class="panel-card"><p style="color:var(--muted);">Aapka seller account abhi admin approval ka wait kar raha hai. Approve hone ke baad aap yahan se apne products add kar sakenge.</p></div>`;
   } else if(seller.status==='rejected'){
     body = `<div class="panel-card"><p style="color:var(--muted);">Maaf kijiye, aapka seller application reject kar diya gaya hai. Zyada jaankari ke liye admin se sampark karein.</p></div>`;
+  } else if(seller.status==='suspended'){
+    body = `<div class="panel-card"><p style="color:var(--danger);">Aapka seller account suspended hai. Admin se sampark karein.</p></div>`;
   } else {
     const myProducts = state.products.filter(p=>p.sellerId===seller.id);
     const myOrders = state.orders.filter(o=>o.sellerId===seller.id).slice().sort((a,b)=>b.createdAt-a.createdAt);
@@ -1868,6 +2372,7 @@ function viewSellerDash(){
           ${sizesFormHtml()}
           <div class="field"><label>Color Options (comma se alag karein, optional) &mdash; jaise: Red, Blue, Black</label><input type="text" name="colors" placeholder="Red, Blue, Black"></div>
           <div class="field"><label>Product Photos (pehli photo main image hogi, aur bhi select kar sakte hain)</label><input type="file" name="imageFiles" accept="image/*" multiple required></div>
+          <div class="field"><label>Product Video/Reel Link (optional) &mdash; YouTube, Instagram Reel, ya direct .mp4 link</label><input type="text" name="videoUrl" placeholder="https://youtube.com/shorts/... ya https://instagram.com/reel/..."></div>
           <button class="btn-primary" type="submit" style="width:auto;padding:10px 22px;">Product Add Karein</button>
         </form>
       </div>
@@ -2025,7 +2530,8 @@ function viewAdminDash(){
   const pendingCount = state.orders.filter(o=>o.status==='Pending').length;
   const unverifiedPaymentsCount = state.orders.filter(o=>o.paymentMethod==='Online Payment' && !o.paymentVerified).length;
   const pendingRefundsCount = state.orders.filter(o=>o.customerRefundPending || o.codRefundPending).length;
-  const tabs = [['overview','Overview'],['analytics','Sales Analytics'],['own','Apne Products'],['meesho','Meesho Products'],['orders','Orders'+(pendingCount?' ('+pendingCount+')':'')],['payments','Payments'+(unverifiedPaymentsCount?' ('+unverifiedPaymentsCount+')':'')],['refunds','Refunds'+(pendingRefundsCount?' ('+pendingRefundsCount+')':'')],['coupons','Coupons'],['sellers','Sellers'],['sellerProducts','Seller Products'],['slider','Slider'],['settings','Settings']];
+  const unreadMsgCount = state.chatMessages.filter(m=>!m.read).length;
+  const tabs = [['overview','Overview'],['analytics','Sales Analytics'],['own','Apne Products'],['meesho','Meesho Products'],['orders','Orders'+(pendingCount?' ('+pendingCount+')':'')],['payments','Payments'+(unverifiedPaymentsCount?' ('+unverifiedPaymentsCount+')':'')],['refunds','Refunds'+(pendingRefundsCount?' ('+pendingRefundsCount+')':'')],['messages','Messages'+(unreadMsgCount?' ('+unreadMsgCount+')':'')],['customers','Customers'],['coupons','Coupons'],['sellers','Sellers'],['sellerProducts','Seller Products'],['slider','Slider'],['settings','Settings']];
   return `<div class="dash">
     <div class="dash-head"><h2>Admin Panel</h2><button class="btn-logout" id="adminLogoutBtn">Logout</button></div>
     <div class="tabs">${tabs.map(([k,l])=>`<button data-admintab="${k}" class="${state.adminTab===k?'active':''}">${l}</button>`).join('')}</div>
@@ -2040,6 +2546,8 @@ function adminTabBody(){
   if(state.adminTab==='orders') return adminOrders();
   if(state.adminTab==='payments') return adminPayments();
   if(state.adminTab==='refunds') return adminRefunds();
+  if(state.adminTab==='messages') return adminMessages();
+  if(state.adminTab==='customers') return adminCustomers();
   if(state.adminTab==='coupons') return adminCoupons();
   if(state.adminTab==='sellers') return adminSellers();
   if(state.adminTab==='sellerProducts') return adminSellerProducts();
@@ -2058,6 +2566,11 @@ function adminOverview(){
   const pendingCount = ordersInRange.filter(o=>o.status==='Pending').length;
   const lowStockCount = state.products.filter(p=>p.stock!=null && p.stock>0 && p.stock<=5).length;
   const outOfStockCount = state.products.filter(p=>p.stock!=null && p.stock<=0).length;
+  const totalUsersCount = state.customers.length;
+  const totalProductsCount = state.products.length;
+  const refundsPendingCount = state.orders.filter(o=>o.customerRefundPending || o.codRefundPending).length;
+  const commissionPctOverview = Number(state.settings.commissionPercent||0);
+  const resellerEarnings = Math.round(state.orders.filter(o=>o.status==='Delivered' && o.sellerId).reduce((s,o)=>s+(o.price*o.qty-(o.discountAmount||0))*(1-commissionPctOverview/100),0));
   const salesByProduct = {};
   ordersInRange.forEach(o=>{ salesByProduct[o.productName] = (salesByProduct[o.productName]||0) + o.qty; });
   const topProducts = Object.entries(salesByProduct).sort((a,b)=>b[1]-a[1]).slice(0,5);
@@ -2095,7 +2608,11 @@ function adminOverview(){
   <div class="stat-grid">
     <div class="stat-card"><div class="stat-label">Total Sales (Delivered)</div><div class="stat-value">₹${totalSales}</div></div>
     <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-value">${totalOrders}</div></div>
+    <div class="stat-card"><div class="stat-label">Total Users</div><div class="stat-value">${totalUsersCount}</div></div>
+    <div class="stat-card"><div class="stat-label">Total Products</div><div class="stat-value">${totalProductsCount}</div></div>
+    <div class="stat-card"><div class="stat-label">Reseller Earnings</div><div class="stat-value">₹${resellerEarnings}</div></div>
     <div class="stat-card"><div class="stat-label">Pending Orders</div><div class="stat-value">${pendingCount}</div></div>
+    <div class="stat-card"><div class="stat-label">Refunds Pending</div><div class="stat-value">${refundsPendingCount}</div></div>
     <div class="stat-card"><div class="stat-label">Low Stock Products</div><div class="stat-value">${lowStockCount}</div></div>
     <div class="stat-card"><div class="stat-label">Out of Stock</div><div class="stat-value">${outOfStockCount}</div></div>
   </div>
@@ -2154,6 +2671,81 @@ function adminAnalytics(){
     ${sellerRanking.length ? sellerRanking.map(s=>`<div class="bar-chart-row"><div class="bar-chart-label" title="${esc(s.name)}">${esc(s.name.length>14?s.name.slice(0,13)+'…':s.name)}</div><div class="bar-chart-track"><div class="bar-chart-fill" style="width:${Math.round(s.revenue/maxSellerRevenue*100)}%;"></div></div><div class="bar-chart-val">₹${s.revenue} &middot; ${s.orders} orders</div></div>`).join('') : '<div style="color:var(--muted);">Abhi koi delivered order nahi hai</div>'}
   </div>`;
 }
+/* ----- ADMIN: Chat Widget Messages Inbox ----- */
+function adminMessages(){
+  const list = state.chatMessages.slice().sort((a,b)=>b.createdAt-a.createdAt);
+  return `<div class="panel-card">
+    <h3>Chat Widget Se Aaye Messages (${list.length})</h3>
+    <p style="color:var(--muted);font-size:13px;margin:-6px 0 14px;">Ye messages customers ne site ke chat widget (💬 button, bottom-right) se bheje hain. Reply likhkar seedha WhatsApp par bhej sakte hain.</p>
+    ${!list.length ? '<div class="empty">Abhi tak koi message nahi aaya.</div>' : list.map(m=>`
+      <div class="panel-card" style="margin-bottom:12px;${m.read?'':'border-color:var(--accent);'}">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+          <div><b>${esc(m.name||'Naamalum')}</b> <span style="color:var(--muted);font-size:12px;">&middot; ${esc(m.phone||'-')}</span></div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            ${!m.read ? `<span class="status-pill status-pending">Naya</span>` : ''}
+            <span style="color:var(--muted);font-size:11.5px;">${new Date(m.createdAt).toLocaleString('en-IN')}</span>
+          </div>
+        </div>
+        <p style="margin:10px 0;font-size:13.5px;">${esc(m.message)}</p>
+        ${m.reply ? `<div style="background:#E8F6EC;border-radius:8px;padding:8px 10px;font-size:12.5px;color:#1E7A34;margin-bottom:8px;"><b>Aapka reply bheja gaya:</b> ${esc(m.reply)}</div>` : ''}
+        <textarea data-reply-input="${m.id}" rows="2" placeholder="Reply likhein..." style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px;resize:vertical;margin-bottom:8px;">${esc(m.reply||'')}</textarea>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          ${m.phone ? `<button type="button" class="icon-btn icon-btn-approve" data-reply-wa="${m.id}">WhatsApp Par Reply Bhejein</button>` : ''}
+          ${!m.read ? `<button type="button" class="icon-btn icon-btn-edit" data-mark-read="${m.id}">Read Mark Karein</button>` : ''}
+          <button type="button" class="icon-btn icon-btn-del" data-del-message="${m.id}">Delete</button>
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+
+/* ----- ADMIN: Customer Segmentation (VIP / New / Regular / Inactive) ----- */
+function computeCustomerSegments(){
+  const map = {};
+  state.orders.forEach(o=>{
+    const phone = (o.custPhone||'').trim();
+    if(!phone) return;
+    if(!map[phone]) map[phone] = { phone, name:o.custName||'-', orders:0, spend:0, lastOrderAt:0 };
+    map[phone].orders += 1;
+    if(o.status==='Delivered') map[phone].spend += (o.price*o.qty - (o.discountAmount||0));
+    if(o.createdAt && o.createdAt>map[phone].lastOrderAt){ map[phone].lastOrderAt = o.createdAt; map[phone].name = o.custName||map[phone].name; }
+  });
+  const DAY = 24*60*60*1000;
+  const now = Date.now();
+  return Object.values(map).map(c=>{
+    let segment = 'Regular';
+    if(c.orders===1) segment = 'New';
+    if(c.orders>=3 || c.spend>=3000) segment = 'VIP';
+    if(c.lastOrderAt && (now-c.lastOrderAt) > 45*DAY) segment = 'Inactive';
+    return Object.assign({}, c, { segment });
+  }).sort((a,b)=>b.lastOrderAt-a.lastOrderAt);
+}
+function segTagClass(seg){
+  return seg==='VIP' ? 'seg-vip' : seg==='New' ? 'seg-new' : seg==='Inactive' ? 'seg-inactive' : 'seg-regular';
+}
+function adminCustomers(){
+  const all = computeCustomerSegments();
+  const filter = state.adminCustomerFilter || 'all';
+  const list = filter==='all' ? all : all.filter(c=>c.segment.toLowerCase()===filter);
+  const filters = [['all','Sabhi'],['vip','VIP'],['new','New'],['regular','Regular'],['inactive','Inactive']];
+  return `<div class="panel-card">
+    <h3>Customer List (${all.length})</h3>
+    <p style="color:var(--muted);font-size:13px;margin:-6px 0 14px;">Orders ke data se automatically tag lagti hai &mdash; <b>VIP</b> (3+ orders ya ₹3000+ spend), <b>New</b> (sirf 1 order), <b>Inactive</b> (45+ din se koi order nahi), baaki <b>Regular</b>.</p>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+      ${filters.map(([k,l])=>`<button type="button" data-customer-filter="${k}" class="icon-btn ${filter===k?'icon-btn-approve':'icon-btn-edit'}">${l}</button>`).join('')}
+    </div>
+    <div class="table-wrap"><table><tr><th>Naam</th><th>Phone</th><th>Total Orders</th><th>Total Spend (Delivered)</th><th>Last Order</th><th>Tag</th></tr>
+    ${list.length ? list.map(c=>`<tr>
+      <td>${esc(c.name)}</td>
+      <td>${esc(c.phone)}</td>
+      <td>${c.orders}</td>
+      <td>₹${c.spend}</td>
+      <td>${c.lastOrderAt ? new Date(c.lastOrderAt).toLocaleDateString('en-IN') : '-'}</td>
+      <td><span class="seg-tag ${segTagClass(c.segment)}">${c.segment}</span></td>
+    </tr>`).join('') : '<tr><td colspan="6" style="color:var(--muted);">Is filter mein koi customer nahi</td></tr>'}
+    </table></div>
+  </div>`;
+}
+
 function adminCoupons(){
   const list = state.coupons;
   return `
@@ -2181,38 +2773,37 @@ function adminCoupons(){
 }
 function adminOwnProducts(){
   const list = state.products.filter(p=>p.type==='own' && !p.sellerId);
+  const editing = state.editOwnProductId ? list.find(p=>p.id===state.editOwnProductId) : null;
   return `
   <div class="panel-card">
-    <h3>Naya Apna Product Add Karein</h3>
+    <h3>${editing?'Product Edit Karein':'Naya Apna Product Add Karein'}</h3>
     <form id="adminOwnProductForm">
+      <input type="hidden" name="editId" value="${editing?esc(editing.id):''}">
       <div class="form-row">
-        <div class="field"><label>Product Naam</label><input type="text" name="name" required></div>
-        <div class="field"><label>Price (₹)</label><input type="number" name="price" required></div>
+        <div class="field"><label>Product Naam</label><input type="text" name="name" value="${editing?esc(editing.name):''}" required></div>
+        <div class="field"><label>Selling Price (₹)</label><input type="number" name="price" value="${editing?editing.price:''}" required></div>
       </div>
       <div class="form-row">
         <div class="field"><label>Category</label>
           <select name="category" required>
             <option value="">-- Category chunein --</option>
-            <option>Fashion &amp; Clothing</option>
-            <option>Home &amp; Kitchen</option>
-            <option>Electronics</option>
-            <option>Beauty &amp; Personal Care</option>
-            <option>Kids &amp; Toys</option>
-            <option>Grocery</option>
-            <option>Other</option>
+            ${['Fashion & Clothing','Home & Kitchen','Electronics','Beauty & Personal Care','Kids & Toys','Grocery','Other'].map(c=>`<option ${editing&&editing.category===c?'selected':''}>${c}</option>`).join('')}
           </select>
         </div>
-        <div class="field"><label>Stock (Quantity)</label><input type="number" name="stock" min="0" placeholder="Jaise: 20" required></div>
+        <div class="field"><label>Stock (Quantity)</label><input type="number" name="stock" min="0" placeholder="Jaise: 20" value="${editing&&editing.stock!=null?editing.stock:''}" required></div>
       </div>
-      <div class="field"><label>Product Description</label><textarea name="description" rows="3" placeholder="Product ke baare mein bataein - material, size, color, features..." required style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;"></textarea></div>
+      <div class="field"><label>Cost Price (₹, optional &mdash; margin track karne ke liye)</label><input type="number" name="costPrice" placeholder="Jaise: 250" value="${editing&&editing.costPrice!=null?editing.costPrice:''}"></div>
+      <div class="field"><label>Product Description</label><textarea name="description" rows="3" placeholder="Product ke baare mein bataein - material, size, color, features..." required style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;">${editing?esc(editing.description||''):''}</textarea></div>
       ${highlightsFormHtml()}
       ${sizesFormHtml()}
-      <div class="field"><label>Color Options (comma se alag karein, optional) &mdash; jaise: Red, Blue, Black</label><input type="text" name="colors" placeholder="Red, Blue, Black"></div>
+      <div class="field"><label>Color Options (comma se alag karein, optional) &mdash; jaise: Red, Blue, Black</label><input type="text" name="colors" placeholder="Red, Blue, Black" value="${editing&&editing.colors?esc(editing.colors.join(', ')):''}"></div>
       <div class="form-row">
-        <div class="field"><label>Product Photos (pehli photo main image hogi, aur bhi select kar sakte hain)</label><input type="file" name="imageFiles" accept="image/*" multiple required></div>
-        <div class="field"><label>WhatsApp Number (optional, blank = default)</label><input type="text" name="whatsapp" placeholder="91XXXXXXXXXX"></div>
+        <div class="field"><label>Product Photos ${editing?'(khaali chhodein agar photo change nahi karni)':'(pehli photo main image hogi, aur bhi select kar sakte hain)'}</label><input type="file" name="imageFiles" accept="image/*" multiple ${editing?'':'required'}></div>
+        <div class="field"><label>WhatsApp Number (optional, blank = default)</label><input type="text" name="whatsapp" placeholder="91XXXXXXXXXX" value="${editing?esc(editing.whatsapp||''):''}"></div>
       </div>
-      <button class="btn-primary" type="submit" style="width:auto;padding:10px 22px;">Add Karein</button>
+      <div class="field"><label>Product Video/Reel Link (optional) &mdash; YouTube, Instagram Reel, ya direct .mp4 link</label><input type="text" name="videoUrl" placeholder="https://youtube.com/shorts/... ya https://instagram.com/reel/..." value="${editing?esc(editing.videoUrl||''):''}"></div>
+      <button class="btn-primary" type="submit" style="width:auto;padding:10px 22px;">${editing?'Update Karein':'Add Karein'}</button>
+      ${editing?`<button class="icon-btn icon-btn-reject" type="button" id="cancelOwnEditBtn" style="margin-left:8px;">Cancel</button>`:''}
     </form>
   </div>
   <div class="panel-card">
@@ -2225,41 +2816,65 @@ function adminOwnProducts(){
     </form>
   </div>
   <div class="panel-card"><h3>List (${list.length})</h3>
-    <div class="table-wrap"><table><tr><th></th><th>Naam</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr>
-    ${list.length?list.map(p=>`<tr><td><img class="row-thumb" src="${esc((p.images&&p.images[0])||p.image)}"></td><td>${esc(p.name)}</td><td>${esc(p.category||'-')}</td><td>₹${p.price}</td><td>${p.stock!=null?p.stock:'-'}${lowStockBadge(p)}</td>
-      <td><button class="icon-btn icon-btn-del" data-del-product="${p.id}">Delete</button>${notifyListButton(p)}</td></tr>`).join(''):'<tr><td colspan="6" style="color:var(--muted);">Koi product nahi</td></tr>'}
+    <div class="table-wrap"><table><tr><th></th><th>Naam</th><th>Category</th><th>Price</th><th>Margin</th><th>Stock</th><th></th></tr>
+    ${list.length?list.map(p=>`<tr><td><img class="row-thumb" src="${esc((p.images&&p.images[0])||p.image)}"></td><td>${esc(p.name)}</td><td>${esc(p.category||'-')}</td><td>₹${p.price}</td><td>${p.costPrice!=null?'₹'+(p.price-p.costPrice):'-'}</td><td>${p.stock!=null?p.stock:'-'}${lowStockBadge(p)}</td>
+      <td><button class="icon-btn icon-btn-edit" data-edit-product="${p.id}" data-edit-type="own">Edit</button> <button class="icon-btn icon-btn-del" data-del-product="${p.id}">Delete</button>${notifyListButton(p)}</td></tr>`).join(''):'<tr><td colspan="7" style="color:var(--muted);">Koi product nahi</td></tr>'}
     </table></div>
   </div>`;
 }
 function adminMeeshoProducts(){
   const list = state.products.filter(p=>p.type==='meesho');
+  const editing = state.editMeeshoProductId ? list.find(p=>p.id===state.editMeeshoProductId) : null;
   return `
   <div class="panel-card">
-    <h3>Naya Meesho Product Add Karein</h3>
+    <h3>${editing?'Meesho Product Edit Karein':'Naya Meesho Product Add Karein'}</h3>
     ${state.msg && state.msg.scope==='meesho' ? msgBox(state.msg) : ''}
     <form id="adminMeeshoProductForm">
+      <input type="hidden" name="editId" value="${editing?esc(editing.id):''}">
       <div class="form-row">
-        <div class="field"><label>Product Naam</label><input type="text" name="name" required></div>
-        <div class="field"><label>Price (₹)</label><input type="number" name="price" required></div>
+        <div class="field"><label>Product Naam</label><input type="text" name="name" value="${editing?esc(editing.name):''}" required></div>
+        <div class="field"><label>Selling Price (₹)</label><input type="number" name="price" value="${editing?editing.price:''}" required></div>
       </div>
+      <div class="field"><label>Meesho Cost Price (₹, optional &mdash; margin track karne ke liye)</label><input type="number" name="costPrice" placeholder="Jaise: 350" value="${editing&&editing.costPrice!=null?editing.costPrice:''}"></div>
       <div class="form-row">
-        <div class="field"><label>Product Photos (pehli photo main image hogi, aur bhi select kar sakte hain)</label><input type="file" name="imageFiles" accept="image/*" multiple required></div>
-        <div class="field"><label>Meesho Reselling / Affiliate Link</label><input type="text" name="meeshoLink" placeholder="https://meesho.com/..." required></div>
+        <div class="field"><label>Product Photos ${editing?'(khaali chhodein agar photo change nahi karni)':'(pehli photo main image hogi, aur bhi select kar sakte hain)'}</label><input type="file" name="imageFiles" accept="image/*" multiple ${editing?'':'required'}></div>
+        <div class="field"><label>Meesho Reselling / Affiliate Link</label><input type="text" name="meeshoLink" placeholder="https://meesho.com/..." value="${editing?esc(editing.meeshoLink||''):''}" required></div>
       </div>
-      <button class="btn-primary" type="submit" style="width:auto;padding:10px 22px;">Add Karein</button>
+      <button class="btn-primary" type="submit" style="width:auto;padding:10px 22px;">${editing?'Update Karein':'Add Karein'}</button>
+      ${editing?`<button class="icon-btn icon-btn-reject" type="button" id="cancelMeeshoEditBtn" style="margin-left:8px;">Cancel</button>`:''}
     </form>
   </div>
   <div class="panel-card"><h3>List (${list.length})</h3>
-    <div class="table-wrap"><table><tr><th></th><th>Naam</th><th>Price</th><th>Link</th><th></th></tr>
-    ${list.length?list.map(p=>`<tr><td><img class="row-thumb" src="${esc(p.image)}"></td><td>${esc(p.name)}</td><td>₹${p.price}</td>
+    <div class="table-wrap"><table><tr><th></th><th>Naam</th><th>Price</th><th>Margin</th><th>Link</th><th></th></tr>
+    ${list.length?list.map(p=>`<tr><td><img class="row-thumb" src="${esc(p.image)}"></td><td>${esc(p.name)}</td><td>₹${p.price}</td><td>${p.costPrice!=null?'₹'+(p.price-p.costPrice):'-'}</td>
       <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(p.meeshoLink)}</td>
-      <td><button class="icon-btn icon-btn-del" data-del-product="${p.id}">Delete</button></td></tr>`).join(''):'<tr><td colspan="5" style="color:var(--muted);">Koi product nahi</td></tr>'}
+      <td><button class="icon-btn icon-btn-edit" data-edit-product="${p.id}" data-edit-type="meesho">Edit</button> <button class="icon-btn icon-btn-del" data-del-product="${p.id}">Delete</button></td></tr>`).join(''):'<tr><td colspan="6" style="color:var(--muted);">Koi product nahi</td></tr>'}
     </table></div>
   </div>`;
 }
-const ORDER_STATUSES = ['Pending','Confirmed','Shipped','Delivered','Returned','Cancelled'];
+/* ----- Order Tracking Timeline (visual: Order Placed -> Confirmed -> Shipped -> Delivered) ----- */
+function orderTimelineHtml(status){
+  if(status==='Cancelled'){
+    return `<div class="order-timeline is-cancelled">
+      <div class="timeline-step done"><div class="dot">✓</div><div class="label">Order Placed</div></div>
+      <div class="timeline-step done"><div class="line"></div><div class="dot">✕</div><div class="label">Cancelled</div></div>
+    </div>`;
+  }
+  const steps = [{label:'Order Placed'},{label:'Confirmed'},{label:'Shipped'},{label:'Delivered'}];
+  const statusIdxMap = {Pending:0, Confirmed:1, Shipped:2, Delivered:3, Returned:3};
+  const idx = statusIdxMap[status]!=null ? statusIdxMap[status] : 0;
+  const stepsHtml = steps.map((s,i)=>{
+    const classes = ['timeline-step'];
+    if(i<=idx) classes.push('done');
+    if(i===idx && status!=='Returned') classes.push('active');
+    return `<div class="${classes.join(' ')}"><div class="line"></div><div class="dot">${i<=idx?'✓':(i+1)}</div><div class="label">${s.label}</div></div>`;
+  }).join('');
+  const extra = status==='Returned' ? `<div style="margin-top:8px;"><span class="status-pill status-returned">↩ Deliver Hone Ke Baad Return Ho Chuka Hai</span></div>` : '';
+  return `<div class="order-timeline">${stepsHtml}</div>${extra}`;
+}
+const ORDER_STATUSES = ['Pending','Confirmed','Shipped','Delivered','Delivery Failed','Exchange Requested','Returned','Cancelled'];
 function orderStatusClass(s){
-  return s==='Delivered' ? 'status-delivered' : s==='Shipped' ? 'status-shipped' : s==='Confirmed' ? 'status-confirmed' : s==='Returned' ? 'status-returned' : s==='Cancelled' ? 'status-cancelled' : 'status-pending';
+  return s==='Delivered' ? 'status-delivered' : s==='Shipped' ? 'status-shipped' : s==='Confirmed' ? 'status-confirmed' : s==='Returned' ? 'status-returned' : s==='Cancelled' ? 'status-cancelled' : s==='Delivery Failed' ? 'status-cancelled' : s==='Exchange Requested' ? 'status-returned' : 'status-pending';
 }
 function orderStatusSelect(o){
   return `<select class="order-status-select ${orderStatusClass(o.status)}" data-order-status="${o.id}">
@@ -2352,21 +2967,21 @@ function courierCell(o){
   </div>`;
 }
 function orderRowsHtml(list, showSeller, showPrint){
-  const cols = 10 + (showSeller?1:0) + (showPrint?1:0);
+  const cols = 11 + (showSeller?1:0) + (showPrint?1:0);
   if(!list.length) return `<tr><td colspan="${cols}" style="color:var(--muted);">Koi order nahi</td></tr>`;
   return list.map(o=>`<tr>
     <td><img class="row-thumb" src="${esc(o.productImage)}"></td>
     <td>${esc(o.orderId)}<br><span style="color:var(--muted);font-size:11.5px;">${esc(o.orderTime)}</span></td>
-    <td>${esc(o.productName)}${o.size?' ('+esc(o.size)+')':''}${o.color?' - '+esc(o.color):''}<br><span style="color:var(--muted);font-size:11.5px;">Qty: ${o.qty} &times; ₹${o.price}</span></td>
+    <td>${esc(o.productName)}${o.size?' ('+esc(o.size)+')':''}${o.color?' - '+esc(o.color):''}<br><span style="color:var(--muted);font-size:11.5px;">Qty: ${o.qty} &times; ₹${o.price}</span>${o.cancelledQty?`<br><span style="color:var(--danger);font-size:11px;">${o.cancelledQty} qty cancelled</span>`:''}</td>
     ${showSeller?`<td>${esc(o.sellerName)}</td>`:''}
     <td>${esc(o.custName)}<br><span style="color:var(--muted);font-size:11.5px;">${esc(o.custPhone)}</span></td>
-    <td style="max-width:180px;">${esc(o.custAddress)}, ${esc(o.custCity)} - ${esc(o.custPincode)}</td>
-    <td>${esc(o.paymentMethod)}${o.utr?'<br><span style="color:var(--muted);font-size:11.5px;">UTR: '+esc(o.utr)+'</span>':''}</td>
-    <td>${orderStatusSelect(o)}${o.status==='Cancelled' && o.cancelReason ? `<div style="font-size:11px;color:var(--danger);margin-top:4px;">Wajah: ${esc(o.cancelReason)}</div>` : ''}${o.status==='Returned' && o.returnReason ? `<div style="font-size:11px;color:#B5570B;margin-top:4px;">Wajah: ${esc(o.returnReason)}</div>` : ''}</td>
-    <td>${courierCell(o)}</td>
+    <td style="max-width:180px;">${esc(o.custAddress)}, ${esc(o.custCity)} - ${esc(o.custPincode)}${o.deliveryInstructions?`<div style="font-size:11px;color:var(--muted);margin-top:3px;">📝 ${esc(o.deliveryInstructions)}</div>`:''}</td>
+    <td>${esc(o.paymentMethod)}${o.utr?'<br><span style="color:var(--muted);font-size:11.5px;">UTR: '+esc(o.utr)+'</span>':''}${o.paymentMethod && o.paymentMethod.indexOf('COD')>-1 ? `<div style="margin-top:5px;"><button class="icon-btn ${o.codVerified?'icon-btn-approve':'icon-btn-edit'}" data-cod-verify="${o.id}" style="font-size:10.5px;padding:4px 8px;">${o.codVerified?'✓ COD Verified':'COD Verify Karein'}</button></div>` : ''}</td>
+    <td>${orderStatusSelect(o)}${o.status==='Cancelled' && o.cancelReason ? `<div style="font-size:11px;color:var(--danger);margin-top:4px;">Wajah: ${esc(o.cancelReason)}</div>` : ''}${o.status==='Returned' && o.returnReason ? `<div style="font-size:11px;color:#B5570B;margin-top:4px;">Wajah: ${esc(o.returnReason)}</div>` : ''}${o.status==='Delivery Failed' && o.failedReason ? `<div style="font-size:11px;color:var(--danger);margin-top:4px;">Wajah: ${esc(o.failedReason)}</div>` : ''}${(o.status==='Returned'||o.status==='Exchange Requested')?`<div style="margin-top:6px;"><label style="font-size:10.5px;color:var(--muted);display:block;">Pickup Date</label><input type="date" value="${esc(o.returnPickupDate||'')}" data-pickup-date="${o.id}" style="padding:4px 6px;font-size:11.5px;border:1px solid var(--line);border-radius:6px;"></div>`:''}</td>
+    <td>${courierCell(o)}<div style="margin-top:6px;"><label style="font-size:10.5px;color:var(--muted);display:block;">Est. Delivery</label><input type="date" value="${esc(o.estimatedDeliveryDate||'')}" data-est-delivery="${o.id}" style="padding:4px 6px;font-size:11.5px;border:1px solid var(--line);border-radius:6px;"></div></td>
     <td style="white-space:nowrap;">${o.courierCompany==='Apna Delivery Boy' || !o.courierCompany ? (o.deliveryBoyName ? `${esc(o.deliveryBoyName)}${o.deliveryBoyPhone?'<br><span style="color:var(--muted);font-size:11.5px;">'+esc(o.deliveryBoyPhone)+'</span>':''}<div style="margin-top:4px;"><button class="icon-btn icon-btn-edit" data-set-deliveryboy="${o.id}">Edit</button></div>` : `<button class="icon-btn icon-btn-edit" data-set-deliveryboy="${o.id}">Add Karein</button>`) : '<span style="color:var(--muted);">-</span>'}</td>
     <td>${payoutCellHtml(o, showSeller)}</td>
-    ${showPrint?`<td><button class="icon-btn icon-btn-edit" data-print-order="${o.id}">Print</button><button class="icon-btn icon-btn-edit" data-invoice-order="${o.id}">Invoice</button></td>`:''}
+    ${showPrint?`<td><button class="icon-btn icon-btn-edit" data-print-order="${o.id}">Print</button><button class="icon-btn icon-btn-edit" data-invoice-order="${o.id}">Invoice</button><button class="icon-btn icon-btn-edit" data-cancel-partial="${o.id}" style="margin-top:4px;">Partial Cancel</button></td>`:''}
   </tr>`).join('');
 }
 function adminOrders(){
@@ -2374,7 +2989,7 @@ function adminOrders(){
   return `<div class="panel-card"><h3>Saare Orders (${list.length})</h3>
     <p style="color:var(--muted);font-size:13px;margin:-6px 0 14px;">Yahan har seller aur apne products ke saare orders dikhte hain. Status dropdown se update karein.</p>
     <button class="icon-btn icon-btn-edit" id="exportOrdersCsvBtn" style="margin-bottom:12px;">Excel/CSV Export Karein</button>
-    <div class="table-wrap"><table><tr><th></th><th>Order</th><th>Product</th><th>Seller</th><th>Customer</th><th>Address</th><th>Payment</th><th>Status</th><th>Courier / Tracking</th><th>Delivery Boy</th><th>Payout</th><th></th></tr>
+    <div class="table-wrap"><table><tr><th></th><th>Order</th><th>Product</th><th>Seller</th><th>Customer</th><th>Address</th><th>Payment</th><th>Status</th><th>Courier / Est. Delivery</th><th>Delivery Boy</th><th>Payout</th><th></th></tr>
     ${orderRowsHtml(list, true, true)}
     </table></div>
   </div>`;
@@ -2422,14 +3037,14 @@ function adminRefunds(){
       </div>`
     : (o.custUpiId ? `<span style="display:flex;gap:6px;align-items:center;">${esc(o.custUpiId)}<button class="icon-btn icon-btn-edit" data-copy-upi="${esc(o.custUpiId)}" style="white-space:nowrap;padding:4px 8px;font-size:11px;" title="UPI ID copy karein">Copy</button></span>` : '<span style="color:var(--muted);">-</span>');
   const payUpiLink = (o) => {
-    const amount = o.custPaidAmount!=null ? o.custPaidAmount : (o.price*o.qty - (o.discountAmount||0) + (o.deliveryCharge||0));
+    const amount = o.refundAmountOverride!=null ? o.refundAmountOverride : (o.custPaidAmount!=null ? o.custPaidAmount : (o.price*o.qty - (o.discountAmount||0) + (o.deliveryCharge||0)));
     const note = ('Refund ' + (o.orderId||'')).replace(/[^a-zA-Z0-9 ]/g,'').slice(0,30);
     return `upi://pay?pa=${encodeURIComponent(o.custUpiId)}&pn=${encodeURIComponent(o.custName||'Customer')}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
   };
   const rowHtml = (o, showAction) => `<tr>
     <td>${esc(o.orderId)}</td><td>${esc(o.productName)}</td>
     <td>${esc(o.custName)}<br><span style="color:var(--muted);font-size:11.5px;">${esc(o.custPhone)}</span></td>
-    <td>₹${o.price*o.qty - (o.discountAmount||0)}</td>
+    <td>${showAction ? `<div style="font-size:11px;color:var(--muted);">Full: ₹${o.price*o.qty - (o.discountAmount||0)}</div><input type="number" value="${o.refundAmountOverride!=null?o.refundAmountOverride:(o.price*o.qty - (o.discountAmount||0))}" data-refund-amount="${o.id}" style="width:90px;padding:5px 7px;font-size:12.5px;border:1px solid var(--line);border-radius:6px;margin-top:2px;">` : `₹${o.refundAmountOverride!=null?o.refundAmountOverride:(o.price*o.qty - (o.discountAmount||0))}`}</td>
     <td>${esc(o.returnReason||'-')}</td>
     <td>${upiCell(o, showAction)}</td>
     <td style="white-space:nowrap;">${showAction
@@ -2797,6 +3412,71 @@ function generateSellerStatement(sellerId){
   </body></html>`);
   w.document.close();
 }
+/* ----- Live Chat Widget (floating button + panel, WhatsApp ke alawa on-site chat) ----- */
+const CHAT_FAQS = [
+  {q:'Order Kaise Karein?', a:'Product page par jaake "WhatsApp Par Order Karein" button dabayein, apni details bharein aur order confirm ho jayega.'},
+  {q:'Delivery Mein Kitna Time Lagta Hai?', a:'Aam taur par delivery 3-7 din mein ho jaati hai, location ke hisaab se time thoda badal sakta hai.'},
+  {q:'Return/Refund Policy Kya Hai?', a:'Order deliver hone ke baad agar koi problem ho to "Order Track" page se ya yahan message karke return/refund request kar sakte hain.'},
+  {q:'Seller Kaise Banein?', a:'Upar "Seller Login" se "Naya Account Banayein" par jaakar signup karein, admin approval ke baad aap apne products list kar sakenge.'}
+];
+function renderChatWidget(){
+  const root = document.getElementById('chatWidgetRoot');
+  if(!root) return;
+  const hiddenViews = ['adminLogin','adminForgot','adminDash','sellerLogin','sellerSignup','sellerForgot','sellerDash'];
+  if(!state.loaded || hiddenViews.includes(state.view)){ root.innerHTML=''; return; }
+  let bodyHtml = '';
+  if(state.chatView==='sent'){
+    bodyHtml = `<div style="text-align:center;padding:20px 6px;">
+      <div style="font-size:34px;">✅</div>
+      <p style="font-size:13.5px;color:var(--muted);margin-top:6px;">Aapka message mil gaya hai! Hum jald hi WhatsApp/phone par aapse sampark karenge.</p>
+      <button type="button" class="icon-btn icon-btn-edit" id="chatBackBtn" style="margin-top:6px;">Wapas Jayein</button>
+    </div>`;
+  } else if(state.chatView==='form'){
+    bodyHtml = `<form id="chatMsgForm">
+      <div class="field" style="margin-bottom:10px;"><label style="font-size:12.5px;">Aapka Naam</label><input type="text" name="chatName" required style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;"></div>
+      <div class="field" style="margin-bottom:10px;"><label style="font-size:12.5px;">WhatsApp Number</label><input type="tel" name="chatPhone" required style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;"></div>
+      <div class="field" style="margin-bottom:10px;"><label style="font-size:12.5px;">Aapka Sawaal / Message</label><textarea name="chatMessage" rows="3" required style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;resize:vertical;"></textarea></div>
+      <button class="btn-primary" type="submit" style="padding:9px;">Message Bhejein</button>
+      <button type="button" class="icon-btn icon-btn-edit" id="chatBackBtn" style="margin-top:8px;width:100%;text-align:center;justify-content:center;">&larr; Wapas</button>
+    </form>`;
+  } else {
+    bodyHtml = `<p style="font-size:12.5px;color:var(--muted);margin:0 0 12px;">Namaste! Kis cheez mein madad chahiye?</p>
+      ${CHAT_FAQS.map((f,i)=>`<button type="button" class="chat-faq-btn" data-chat-faq="${i}">${esc(f.q)}</button>`).join('')}
+      <button type="button" class="chat-faq-btn" id="chatOpenFormBtn" style="background:var(--accent);color:#1B1F2A;">✍️ Hume Message Likhein</button>
+      <a href="${waLink(state.settings.whatsapp, 'Namaste Bachat Bazaar, mujhe kuch poochna hai:')}" target="_blank" class="chat-faq-btn" style="background:var(--wa);color:#fff;text-decoration:none;">💬 Seedha WhatsApp Par Baat Karein</a>
+      <div id="chatFaqAnswer"></div>`;
+  }
+  root.innerHTML = `
+    <button type="button" class="chat-fab" id="chatFabBtn" title="Chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button>
+    <div class="chat-panel ${state.chatOpen?'show':''}" id="chatPanel">
+      <div class="chat-panel-head"><span style="font-weight:700;font-size:14.5px;">Bachat Bazaar Sahayata</span><button type="button" id="chatCloseBtn" style="background:none;color:#fff;font-size:20px;line-height:1;">&times;</button></div>
+      <div class="chat-panel-body">${bodyHtml}</div>
+    </div>`;
+  const fab = document.getElementById('chatFabBtn');
+  if(fab) fab.onclick = ()=>{ state.chatOpen = !state.chatOpen; renderChatWidget(); };
+  const closeBtn = document.getElementById('chatCloseBtn');
+  if(closeBtn) closeBtn.onclick = ()=>{ state.chatOpen = false; renderChatWidget(); };
+  const backBtn = document.getElementById('chatBackBtn');
+  if(backBtn) backBtn.onclick = ()=>{ state.chatView='menu'; renderChatWidget(); };
+  const openFormBtn = document.getElementById('chatOpenFormBtn');
+  if(openFormBtn) openFormBtn.onclick = ()=>{ state.chatView='form'; renderChatWidget(); };
+  document.querySelectorAll('[data-chat-faq]').forEach(b=>b.onclick=()=>{
+    const f = CHAT_FAQS[Number(b.dataset.chatFaq)];
+    const box = document.getElementById('chatFaqAnswer');
+    if(box && f) box.innerHTML = `<div style="background:#EEF1F8;border-radius:9px;padding:10px 12px;margin-top:6px;font-size:13px;color:var(--navy);">${esc(f.a)}</div>`;
+  });
+  const chatForm = document.getElementById('chatMsgForm');
+  if(chatForm) chatForm.onsubmit = async (e)=>{
+    e.preventDefault();
+    const f = new FormData(chatForm);
+    const msg = { id: uid(), name:(f.get('chatName')||'').trim(), phone:(f.get('chatPhone')||'').trim(), message:(f.get('chatMessage')||'').trim(), createdAt: Date.now(), read:false, reply:'' };
+    state.chatMessages.push(msg);
+    await saveShared(KEYS.chatMessages, state.chatMessages);
+    state.chatView = 'sent';
+    renderChatWidget();
+  };
+}
+
 function msgBox(m){
   if(!m) return '';
   const cls = m.type==='error'?'msg-error':m.type==='ok'?'msg-ok':'msg-info';
@@ -2911,6 +3591,17 @@ function attachHandlers(){
   const razorpayPayBtnCart = document.getElementById('razorpayPayBtnCart');
   if(razorpayPayBtnCart) razorpayPayBtnCart.onclick = ()=> openRazorpayForCart();
 
+  const cartAddrPicker = document.getElementById('cartAddrPicker');
+  if(cartAddrPicker) cartAddrPicker.onchange = ()=>{
+    const idx = cartAddrPicker.value;
+    if(idx==='' || !state.savedAddresses[idx]) return;
+    const a = state.savedAddresses[idx];
+    document.getElementById('cartCustName').value = a.name||'';
+    document.getElementById('cartCustPhone').value = a.phone||'';
+    document.getElementById('cartCustAddress').value = a.address||'';
+    document.getElementById('cartCustCity').value = a.city||'';
+    document.getElementById('cartCustPincode').value = a.pincode||'';
+  };
   const cartCheckoutForm = document.getElementById('cartCheckoutForm');
   if(cartCheckoutForm) cartCheckoutForm.onsubmit = async (e)=>{
     e.preventDefault();
@@ -2925,6 +3616,7 @@ function attachHandlers(){
     const paidConfirmed = f.get('custPaid') === 'on';
     const custPaidAmount = f.get('custPaidAmount') ? Number(f.get('custPaidAmount')) : null;
     const custUpiId = (f.get('custUpiId') || '').trim();
+    const deliveryInstructions = (f.get('deliveryInstructions')||'').trim();
     if(!/^\d{10}$/.test(phone.replace(/\D/g,''))){
       state.cartMsg = {type:'error', text:'Sahi 10-digit phone number daalein.'}; render(); return;
     }
@@ -2976,6 +3668,7 @@ function attachHandlers(){
           sellerId: group.sellerId, sellerName: group.sellerName,
           customerId: state.customerSession ? state.customerSession.id : null,
           custName: name, custPhone: phone, custAddress: address, custCity: city, custPincode: pincode,
+          deliveryInstructions,
           paymentMethod: payment, utr: payment==='Online Payment' ? finalUtr : '',
           custPaidAmount: payment==='Online Payment' ? (isRazorpay ? (disc*item.qty) : custPaidAmount) : null,
           custUpiId: payment==='Online Payment' ? custUpiId : '',
@@ -2990,6 +3683,7 @@ function attachHandlers(){
     if(payment !== 'Online Payment'){
       savePersonal('last-order-address', { name, phone, address, city, pincode });
       state.savedAddress = { name, phone, address, city, pincode };
+      addToSavedAddresses({ name, phone, address, city, pincode });
     }
     const cust = state.customerSession ? state.customers.find(c=>c.id===state.customerSession.id) : null;
     if(cust && cust.referredBy && !cust.referralDiscountUsed && state.cartAppliedCoupon && state.cartAppliedCoupon.isReferral){
@@ -3041,18 +3735,46 @@ function attachHandlers(){
     await saveShared(KEYS.products, state.products);
     render();
   };
-  // Share product with friends (WhatsApp)
-  const shareBtn = document.getElementById('shareProductBtn');
-  if(shareBtn) shareBtn.onclick = ()=>{
-    const p = state.products.find(x=>x.id===state.selectedProductId);
+  // Share product with friends (multi-platform: WhatsApp, Facebook, X/Twitter, Copy Link)
+  document.querySelectorAll('[data-share-product]').forEach(btn=>btn.onclick=()=>{
+    const p = state.products.find(x=>x.id===btn.dataset.productId);
     if(!p) return;
+    const platform = btn.dataset.shareProduct;
     const productLink = window.location.origin + window.location.pathname + '#p=' + p.id;
-    const text = `Ye dekho, maine Bachat Bazaar par ye product dekha: ${p.name} (${priceRangeStr(p)})\n${productLink}`;
-    window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank');
-  };
+    const text = `Ye dekho, maine Bachat Bazaar par ye product dekha: ${p.name} (${priceRangeStr(p)})`;
+    if(platform==='whatsapp'){
+      window.open('https://wa.me/?text='+encodeURIComponent(text+'\n'+productLink), '_blank');
+    } else if(platform==='facebook'){
+      window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(productLink), '_blank');
+    } else if(platform==='twitter'){
+      window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(productLink), '_blank');
+    } else if(platform==='copy'){
+      const doCopyFallback = ()=>{
+        const ta = document.createElement('textarea');
+        ta.value = productLink; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        try{ document.execCommand('copy'); }catch(e){}
+        document.body.removeChild(ta);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(productLink).catch(doCopyFallback);
+      } else { doCopyFallback(); }
+      const oldTitle = btn.title;
+      btn.title = 'Copied!';
+      setTimeout(()=>{ btn.title = oldTitle; }, 1500);
+    }
+  });
   // Try-On (selfie) button
   document.querySelectorAll('[data-tryon-open]').forEach(el=>el.onclick=()=>{
     openTryOn(el.dataset.tryonOpen);
+  });
+  // AI Style Advisor button
+  document.querySelectorAll('[data-style-advisor-open]').forEach(el=>el.onclick=()=>{
+    openStyleAdvisor(el.dataset.styleAdvisorOpen);
+  });
+  // Reels strip thumbnails
+  document.querySelectorAll('[data-reel-open]').forEach(el=>el.onclick=()=>{
+    openReelsViewer(el.dataset.reelOpen);
   });
   // Share after successful order
   const shareOrderBtn = document.getElementById('shareOrderBtn');
@@ -3115,6 +3837,8 @@ function attachHandlers(){
     const el = document.getElementById('homeSearchInput');
     if(el){ el.focus(); try{ el.setSelectionRange(val.length, val.length); }catch(e){} }
   };
+  const voiceSearchBtn = document.getElementById('voiceSearchBtn');
+  if(voiceSearchBtn) voiceSearchBtn.onclick = startVoiceSearch;
   const homeCategorySelect = document.getElementById('homeCategorySelect');
   if(homeCategorySelect) homeCategorySelect.onchange = ()=>{ state.homeCategory = homeCategorySelect.value; render(); };
   const homeRatingFilter = document.getElementById('homeRatingFilter');
@@ -3149,6 +3873,17 @@ function attachHandlers(){
     render();
     await saveShared(KEYS.orders, state.orders);
   };
+  const exchangeBtn = document.querySelector('[data-exchange-order]');
+  if(exchangeBtn) exchangeBtn.onclick = async ()=>{
+    const reason = prompt('Exchange kyun karna hai? (jaise: size galat hai, defective product)');
+    if(reason===null) return;
+    const order = state.orders.find(o=>o.id===exchangeBtn.dataset.exchangeOrder);
+    if(!order) return;
+    order.status = 'Exchange Requested';
+    order.exchangeReason = reason.trim() || 'Wajah nahi bataayi gayi';
+    render();
+    await saveShared(KEYS.orders, state.orders);
+  };
 
   const applyCouponBtn = document.getElementById('applyCouponBtn');
   if(applyCouponBtn) applyCouponBtn.onclick = ()=>{
@@ -3172,6 +3907,17 @@ function attachHandlers(){
   const razorpayPayBtn = document.getElementById('razorpayPayBtn');
   if(razorpayPayBtn) razorpayPayBtn.onclick = ()=> openRazorpayForOrder();
 
+  const orderAddrPicker = document.getElementById('orderAddrPicker');
+  if(orderAddrPicker) orderAddrPicker.onchange = ()=>{
+    const idx = orderAddrPicker.value;
+    if(idx==='' || !state.savedAddresses[idx]) return;
+    const a = state.savedAddresses[idx];
+    document.getElementById('orderCustName').value = a.name||'';
+    document.getElementById('custPhoneInput').value = a.phone||'';
+    document.getElementById('orderCustAddress').value = a.address||'';
+    document.getElementById('orderCustCity').value = a.city||'';
+    document.getElementById('orderCustPincode').value = a.pincode||'';
+  };
   const orderForm = document.getElementById('orderForm');
   if(orderForm) orderForm.onsubmit = async (e)=>{
     e.preventDefault();
@@ -3184,6 +3930,7 @@ function attachHandlers(){
     const city = f.get('custCity').trim();
     const pincode = f.get('custPincode').trim();
     const qty = f.get('custQty');
+    const deliveryInstructions = (f.get('deliveryInstructions')||'').trim();
     const payment = f.get('custPayment') || 'Cash on Delivery (COD)';
     const utr = (f.get('custUtr') || '').trim();
     const paidConfirmed = f.get('custPaid') === 'on';
@@ -3244,6 +3991,7 @@ function attachHandlers(){
       sellerId: p.sellerId || null, sellerName: p.sellerName || 'Bachat Bazaar',
       customerId: state.customerSession ? state.customerSession.id : null,
       custName: name, custPhone: phone, custAddress: address, custCity: city, custPincode: pincode,
+      deliveryInstructions,
       paymentMethod: payment, utr: payment==='Online Payment' ? finalUtr : '',
       custPaidAmount: payment==='Online Payment' ? (isRazorpay ? orderPrice+deliveryCharge : custPaidAmount) : null,
       custUpiId: payment==='Online Payment' ? custUpiId : '',
@@ -3255,6 +4003,7 @@ function attachHandlers(){
     state.knownOrderCount = state.orders.length;
     savePersonal('last-order-address', { name, phone, address, city, pincode });
     state.savedAddress = { name, phone, address, city, pincode };
+    addToSavedAddresses({ name, phone, address, city, pincode });
     state.msg = {type:'ok', text:'Order WhatsApp par bhej diya gaya hai! WhatsApp app khul gaya hoga, wahan "Send" dabakar order confirm karein.', scope:'order'};
     state.shareOrder = orderRecord;
     // Referral reward: agar is customer ko kisi ne refer kiya tha aur ye unka pehla order hai jisme
@@ -3299,7 +4048,8 @@ function attachHandlers(){
       const referrer = state.customers.find(c=>c.referralCode===referredCodeInput);
       if(referrer) referredBy = referrer.id;
     }
-    const customer = { id:uid(), name:f.get('name'), phone, password:f.get('password'), address:'', city:'', pincode:'', securityQuestion:f.get('securityQuestion'), securityAnswer:f.get('securityAnswer'), referralCode: phone.slice(-4)+uid().slice(-3).toUpperCase(), referredBy, referralDiscountUsed:false };
+    const custPassRec = await makePasswordRecord(f.get('password'));
+    const customer = { id:uid(), name:f.get('name'), phone, passwordHash:custPassRec.passwordHash, passwordSalt:custPassRec.passwordSalt, address:'', city:'', pincode:'', securityQuestion:f.get('securityQuestion'), securityAnswer:f.get('securityAnswer'), referralCode: phone.slice(-4)+uid().slice(-3).toUpperCase(), referredBy, referralDiscountUsed:false };
     state.customers.push(customer);
     await saveShared(KEYS.customers, state.customers);
     state.customerSession = { id: customer.id };
@@ -3315,8 +4065,9 @@ function attachHandlers(){
     const f = new FormData(customerLoginForm);
     const phone = f.get('phone').trim();
     const password = f.get('password');
-    const customer = state.customers.find(c=>c.phone===phone && c.password===password);
-    if(!customer){ state.msg = {type:'error', text:'Phone number ya password galat hai.'}; render(); return; }
+    const customer = state.customers.find(c=>c.phone===phone);
+    if(!customer || !(await verifyPassword(password, customer))){ state.msg = {type:'error', text:'Phone number ya password galat hai.'}; render(); return; }
+    if(await migratePasswordIfNeeded(customer, password)) await saveShared(KEYS.customers, state.customers);
     state.customerSession = { id: customer.id };
     await savePersonal('customer-session', state.customerSession);
     state.msg = null;
@@ -3357,7 +4108,10 @@ function attachHandlers(){
     const newPassword = new FormData(cf3).get('password');
     const customer = state.customers.find(c=>c.id===state.customerForgotId);
     if(!customer) return;
-    customer.password = newPassword;
+    const custResetRec = await makePasswordRecord(newPassword);
+    customer.passwordHash = custResetRec.passwordHash;
+    customer.passwordSalt = custResetRec.passwordSalt;
+    delete customer.password;
     await saveShared(KEYS.customers, state.customers);
     state.customerForgotStep = 1;
     state.customerForgotId = null;
@@ -3382,39 +4136,78 @@ function attachHandlers(){
     render();
   };
 
-  // Seller signup
+  // Seller signup + mobile OTP
   const signupForm = document.getElementById('sellerSignupForm');
   if(signupForm) signupForm.onsubmit = async (e)=>{
     e.preventDefault();
+    if(!FIREBASE_CONFIGURED){ state.msg={type:'error',text:'Firebase config/Phone Auth abhi configure nahi hai.'}; render(); return; }
     const f = new FormData(signupForm);
     const email = f.get('email').trim().toLowerCase();
-    if(state.sellers.some(s=>s.email===email)){
-      state.msg = {type:'error', text:'Is email se pehle se account bana hua hai.'}; render(); return;
-    }
-    const seller = { id:uid(), name:f.get('name'), email, phone:f.get('phone'), location:f.get('location'), upiId:(f.get('upiId')||'').trim(), password:f.get('password'), status:'pending' };
-    state.sellers.push(seller);
-    await saveShared(KEYS.sellers, state.sellers);
-    state.sellerSession = { id: seller.id };
-    await savePersonal('seller-session', state.sellerSession);
-    state.msg = null;
-    state.sellerSignupOk = true;
-    nav('sellerDash');
+    const phone = normalizePhone(f.get('phone'));
+    if(state.sellers.some(s=>s.email===email)){ state.msg={type:'error',text:'Is email se pehle se account bana hua hai.'}; render(); return; }
+    if(state.sellers.some(s=>normalizePhone(s.phone)===phone)){ state.msg={type:'error',text:'Is mobile number se pehle se seller account/application hai.'}; render(); return; }
+    try{
+      await sendSellerOtp(phone);
+      signupForm.querySelector('button[type="submit"]').disabled=true;
+      const box=document.getElementById('sellerSignupOtpBox'); if(box) box.style.display='block';
+      const note=document.getElementById('sellerSignupForm'); if(note) note.dataset.otpPending='1';
+      const oldMsg=document.querySelector('.auth-card .msg'); if(oldMsg) oldMsg.innerHTML='OTP bhej diya gaya hai. Neeche OTP enter karke verify karein.';
+    }catch(err){ console.error(err); resetSellerOtp(); state.msg={type:'error',text:'OTP send nahi hua. Number aur Firebase Phone Auth settings check karein.'}; render(); }
   };
+  const signupVerify=document.getElementById('sellerSignupVerifyOtpBtn');
+  if(signupVerify) signupVerify.onclick=async()=>{
+    try{
+      const code=document.getElementById('sellerSignupOtpInput')?.value||'';
+      const user=await verifySellerOtp(code);
+      const form=document.getElementById('sellerSignupForm'); const f=new FormData(form);
+      const sellerPassRec=await makePasswordRecord(f.get('password'));
+      const seller={id:uid(),firebaseUid:user.uid,name:f.get('name').trim(),email:f.get('email').trim().toLowerCase(),phone:normalizePhone(f.get('phone')),location:f.get('location').trim(),upiId:(f.get('upiId')||'').trim(),passwordHash:sellerPassRec.passwordHash,passwordSalt:sellerPassRec.passwordSalt,status:'pending',phoneVerified:true,createdAt:Date.now()};
+      state.sellers.push(seller); await saveShared(KEYS.sellers,state.sellers);
+      state.sellerSession={id:seller.id}; await savePersonal('seller-session',state.sellerSession);
+      state.msg=null; state.sellerSignupOk=true; nav('sellerDash');
+    }catch(err){ console.error(err); state.msg={type:'error',text:'OTP galat ya expire ho gaya. Dobara try karein.'}; render(); }
+  };
+  const signupResend=document.getElementById('sellerSignupResendOtpBtn');
+  if(signupResend) signupResend.onclick=()=>document.getElementById('sellerSignupForm')?.requestSubmit();
 
-  // Seller login
+  // Seller OTP login
   const loginForm = document.getElementById('sellerLoginForm');
   if(loginForm) loginForm.onsubmit = async (e)=>{
     e.preventDefault();
-    const f = new FormData(loginForm);
-    const email = f.get('email').trim().toLowerCase();
-    const password = f.get('password');
-    const seller = state.sellers.find(s=>s.email===email && s.password===password);
-    if(!seller){ state.msg = {type:'error', text:'Email ya password galat hai.'}; render(); return; }
-    state.sellerSession = { id: seller.id };
-    await savePersonal('seller-session', state.sellerSession);
-    state.msg = null;
-    state.sellerSignupOk = false;
-    nav('sellerDash');
+    if(!FIREBASE_CONFIGURED){ state.msg={type:'error',text:'Firebase config/Phone Auth abhi configure nahi hai.'}; render(); return; }
+    const phone=normalizePhone(new FormData(loginForm).get('phone'));
+    const seller=state.sellers.find(s=>normalizePhone(s.phone)===phone);
+    if(!seller){ state.msg={type:'error',text:'Is mobile number se seller account nahi mila. Pehle Seller Register karein.'}; render(); return; }
+    try{
+      await sendSellerOtp(phone);
+      const box=document.getElementById('sellerLoginOtpBox'); if(box) box.style.display='block';
+      const oldMsg=document.querySelector('.auth-card .msg'); if(oldMsg) oldMsg.innerHTML='OTP bhej diya gaya hai. Neeche OTP enter karein.';
+    }catch(err){ console.error(err); resetSellerOtp(); state.msg={type:'error',text:'OTP send nahi hua. Firebase Phone Auth check karein.'}; render(); }
+  };
+  const loginVerify=document.getElementById('sellerLoginVerifyOtpBtn');
+  if(loginVerify) loginVerify.onclick=async()=>{
+    try{
+      const code=document.getElementById('sellerLoginOtpInput')?.value||'';
+      const user=await verifySellerOtp(code);
+      const phone=normalizePhone(user.phoneNumber);
+      const seller=state.sellers.find(s=>normalizePhone(s.phone)===phone);
+      if(!seller){ state.msg={type:'error',text:'Seller record nahi mila.'}; render(); return; }
+      if(!seller.firebaseUid){ seller.firebaseUid=user.uid; seller.phoneVerified=true; await saveShared(KEYS.sellers,state.sellers); }
+      if(seller.status==='suspended'){ state.msg={type:'error',text:'Aapka seller account suspended hai.'}; render(); return; }
+      state.sellerSession={id:seller.id}; await savePersonal('seller-session',state.sellerSession); state.msg=null; state.sellerSignupOk=false; nav('sellerDash');
+    }catch(err){ console.error(err); state.msg={type:'error',text:'OTP galat ya expire ho gaya.'}; render(); }
+  };
+  const loginResend=document.getElementById('sellerLoginResendOtpBtn');
+  if(loginResend) loginResend.onclick=()=>document.getElementById('sellerLoginForm')?.requestSubmit();
+
+  const legacyBtn=document.getElementById('sellerPasswordLoginBtn');
+  if(legacyBtn) legacyBtn.onclick=()=>{ const el=document.getElementById('sellerLegacyLogin'); if(el) el.style.display=el.style.display==='none'?'block':'none'; };
+  const legacyForm=document.getElementById('sellerLegacyLoginForm');
+  if(legacyForm) legacyForm.onsubmit=async(e)=>{
+    e.preventDefault(); const f=new FormData(legacyForm); const email=f.get('email').trim().toLowerCase(); const password=f.get('password'); const seller=state.sellers.find(s=>s.email===email);
+    if(!seller || !(await verifyPassword(password,seller))){ state.msg={type:'error',text:'Email ya password galat hai.'}; render(); return; }
+    if(await migratePasswordIfNeeded(seller,password)) await saveShared(KEYS.sellers,state.sellers);
+    state.sellerSession={id:seller.id}; await savePersonal('seller-session',state.sellerSession); state.msg=null; nav('sellerDash');
   };
 
   // Seller logout
@@ -3440,12 +4233,16 @@ function attachHandlers(){
   document.querySelectorAll('[data-reset-seller-password]').forEach(b=>b.onclick=async ()=>{
     const seller = state.sellers.find(s=>s.id===b.dataset.resetSellerPassword);
     if(!seller) return;
-    const newPassword = prompt(`"${seller.name}" ke liye naya password set karein:`);
-    if(!newPassword || !newPassword.trim()) return;
-    seller.password = newPassword.trim();
+    const newPasswordInput = prompt(`"${seller.name}" ke liye naya password set karein:`);
+    if(!newPasswordInput || !newPasswordInput.trim()) return;
+    const newPassword = newPasswordInput.trim();
+    const sellerResetRec = await makePasswordRecord(newPassword);
+    seller.passwordHash = sellerResetRec.passwordHash;
+    seller.passwordSalt = sellerResetRec.passwordSalt;
+    delete seller.password;
     await saveShared(KEYS.sellers, state.sellers);
     if(confirm('Password save ho gaya. Kya seller ko WhatsApp par naya password bata dein?')){
-      window.open(waLink(seller.phone, `Namaste ${seller.name}, aapka Bachat Bazaar naya password: ${seller.password}\nKripya login karke ise turant badal lein. - Bachat Bazaar`), '_blank');
+      window.open(waLink(seller.phone, `Namaste ${seller.name}, aapka Bachat Bazaar naya password: ${newPassword}\nKripya login karke ise turant badal lein. - Bachat Bazaar`), '_blank');
     }
   });
 
@@ -3463,7 +4260,7 @@ function attachHandlers(){
     const seller = state.sellers.find(s=>s.id===state.sellerSession.id);
     state.sellerSignupOk = false;
     const colorsList = (f.get('colors')||'').split(',').map(c=>c.trim()).filter(Boolean);
-    state.products.push({ id:uid(), type:'own', name:f.get('name'), price:Number(f.get('price')), image:images[0], images, whatsapp:seller.phone, sellerId:seller.id, sellerName:seller.name, status:'pending', category:f.get('category'), description:f.get('description'), stock:Number(f.get('stock')), highlights:collectHighlights(f), sizes:collectSizes(f), colors: colorsList.length?colorsList:null, reviews:[] });
+    state.products.push({ id:uid(), type:'own', name:f.get('name'), price:Number(f.get('price')), image:images[0], images, videoUrl:(f.get('videoUrl')||'').trim(), whatsapp:seller.phone, sellerId:seller.id, sellerName:seller.name, status:'pending', category:f.get('category'), description:f.get('description'), stock:Number(f.get('stock')), highlights:collectHighlights(f), sizes:collectSizes(f), colors: colorsList.length?colorsList:null, reviews:[] });
     await saveShared(KEYS.products, state.products);
     render();
   };
@@ -3493,22 +4290,41 @@ function attachHandlers(){
     render();
   };
 
-  // Admin login
+  // Admin login — ab password server par (Netlify Function) verify hota
+  // hai, aur sahi hone par ek REAL Firebase custom token milta hai jo
+  // firestore.rules mein isAdmin() check enable karta hai. Sirf localStorage
+  // flag ab security boundary NAHI hai (usse sirf UI turant update hoti hai).
   const alf = document.getElementById('adminLoginForm');
   if(alf) alf.onsubmit = async (e)=>{
     e.preventDefault();
     const f = new FormData(alf);
-    if(f.get('username')===state.settings.adminUsername && f.get('password')===state.settings.adminPassword){
+    const username = f.get('username');
+    const adminPasswordInput = f.get('password');
+    try{
+      const res = await fetch('/.netlify/functions/adminLogin', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ username, password: adminPasswordInput })
+      });
+      const data = await res.json();
+      if(!res.ok || !data.token){
+        state.msg = {type:'error', text: data.error || 'Username ya password galat hai.'}; render(); return;
+      }
+      await firebaseAuth.signInWithCustomToken(data.token);
       state.adminSession = { loggedIn:true };
       await savePersonal('admin-session', state.adminSession);
       state.msg = null;
       nav('adminDash');
-    } else {
-      state.msg = {type:'error', text:'Username ya password galat hai.'}; render();
+    }catch(err){
+      console.error('admin login failed', err);
+      state.msg = {type:'error', text:'Login abhi nahi ho paaya, dobara try karein.'}; render();
     }
   };
   const adminLogout = document.getElementById('adminLogoutBtn');
-  if(adminLogout) adminLogout.onclick = async ()=>{ state.adminSession=null; await delPersonal('admin-session'); nav('home'); };
+  if(adminLogout) adminLogout.onclick = async ()=>{
+    state.adminSession=null; await delPersonal('admin-session');
+    try{ if(firebaseAuth) await firebaseAuth.signOut(); }catch(e){}
+    nav('home');
+  };
 
   // Admin forgot password step 1: verify username, move to security question
   const af1 = document.getElementById('adminForgotStep1Form');
@@ -3519,8 +4335,9 @@ function attachHandlers(){
       state.msg = {type:'error', text:'Username galat hai.'}; render(); return;
     }
     if(!state.settings.securityQuestion || !state.settings.securityAnswer){
-      state.msg = {type:'error', text:'Security question set nahi hai, isliye self-reset possible nahi hai. Firestore console se seedha "store-settings" document mein adminPassword change karein.'}; render(); return;
+      state.msg = {type:'error', text:'Security question set nahi hai, isliye self-reset possible nahi hai. Firestore console se "store-settings" document mein jaakar "adminPasswordHash" aur "adminPasswordSalt" fields delete kar dein aur "adminPassword" field ko naya plain password value de dein (jaise: admin123) — agle login par ye khud-ba-khud dobara hash ho jaayega.'}; render(); return;
     }
+    state.adminForgotUsername = username;
     state.adminForgotStep = 2;
     state.msg = null;
     render();
@@ -3533,20 +4350,38 @@ function attachHandlers(){
     if(answer !== (state.settings.securityAnswer||'').trim().toLowerCase()){
       state.msg = {type:'error', text:'Jawab galat hai.'}; render(); return;
     }
+    state.adminForgotAnswer = answer; // step 3 mein server-side re-verify ke liye
     state.adminForgotStep = 3;
     state.msg = null;
     render();
   };
-  // Admin forgot password step 3: set new password
+  // Admin forgot password step 3: set new password.
+  // Ab yahan seedha Firestore nahi likha jaata — admin-secure doc ab
+  // sirf server likh sakta hai, isliye ye Netlify Function ko call karta
+  // hai jo security answer dobara (server par) verify karke naya
+  // hash/salt khud banata aur save karta hai.
   const af3 = document.getElementById('adminForgotStep3Form');
   if(af3) af3.onsubmit = async (e)=>{
     e.preventDefault();
     const fd = new FormData(af3);
-    state.settings.adminPassword = fd.get('password');
-    await saveShared(KEYS.settings, state.settings);
-    state.adminForgotStep = 1;
-    state.msg = {type:'ok', text:'Password update ho gaya. Ab login karein.'};
-    nav('adminLogin');
+    try{
+      const res = await fetch('/.netlify/functions/adminResetPassword', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ username: state.adminForgotUsername || '', answer: state.adminForgotAnswer || '', newPassword: fd.get('password') })
+      });
+      const data = await res.json();
+      if(!res.ok || !data.ok){
+        state.msg = {type:'error', text: data.error || 'Reset nahi ho paaya.'}; render(); return;
+      }
+      state.adminForgotStep = 1;
+      state.adminForgotAnswer = null;
+      state.adminForgotUsername = null;
+      state.msg = {type:'ok', text:'Password update ho gaya. Ab login karein.'};
+      nav('adminLogin');
+    }catch(err){
+      console.error('admin reset failed', err);
+      state.msg = {type:'error', text:'Reset abhi nahi ho paaya, dobara try karein.'}; render();
+    }
   };
 
   document.querySelectorAll('[data-admintab]').forEach(b=>b.onclick=()=>{ state.adminTab = b.dataset.admintab; render(); });
@@ -3582,6 +4417,14 @@ function attachHandlers(){
     const order = state.orders.find(o=>o.id===b.dataset.invoiceOrder);
     if(order) generateInvoice(order);
   });
+  document.querySelectorAll('[data-view-timeline]').forEach(b=>b.onclick=()=>{
+    const order = state.orders.find(o=>o.id===b.dataset.viewTimeline);
+    if(!order) return;
+    state.trackedOrder = order;
+    state.trackResult = 'found';
+    state.trackOrderId = order.orderId;
+    nav('trackOrder');
+  });
   document.querySelectorAll('[data-notify-list]').forEach(b=>b.onclick=()=>{
     openNotifyList(b.dataset.notifyList);
   });
@@ -3594,6 +4437,43 @@ function attachHandlers(){
     if(phone===null) return;
     order.deliveryBoyName = name.trim();
     order.deliveryBoyPhone = phone.trim();
+    render();
+    await saveShared(KEYS.orders, state.orders);
+  });
+  document.querySelectorAll('[data-est-delivery]').forEach(inp=>inp.onchange=async ()=>{
+    const order = state.orders.find(o=>o.id===inp.dataset.estDelivery);
+    if(!order) return;
+    order.estimatedDeliveryDate = inp.value;
+    await saveShared(KEYS.orders, state.orders);
+  });
+  document.querySelectorAll('[data-pickup-date]').forEach(inp=>inp.onchange=async ()=>{
+    const order = state.orders.find(o=>o.id===inp.dataset.pickupDate);
+    if(!order) return;
+    order.returnPickupDate = inp.value;
+    await saveShared(KEYS.orders, state.orders);
+  });
+  document.querySelectorAll('[data-cod-verify]').forEach(b=>b.onclick=async ()=>{
+    const order = state.orders.find(o=>o.id===b.dataset.codVerify);
+    if(!order) return;
+    order.codVerified = !order.codVerified;
+    render();
+    await saveShared(KEYS.orders, state.orders);
+  });
+  document.querySelectorAll('[data-cancel-partial]').forEach(b=>b.onclick=async ()=>{
+    const order = state.orders.find(o=>o.id===b.dataset.cancelPartial);
+    if(!order) return;
+    if(order.status==='Cancelled'){ alert('Ye order pehle se cancel ho chuka hai.'); return; }
+    const input = prompt(`Kitni quantity cancel karni hai? (Total qty: ${order.qty})`, order.qty);
+    if(input===null) return;
+    const cancelQty = Number(input);
+    if(!cancelQty || cancelQty<=0 || cancelQty>order.qty){ alert('Sahi quantity daalein (1 se '+order.qty+' ke beech).'); return; }
+    if(cancelQty===order.qty){
+      order.status = 'Cancelled';
+      order.cancelReason = 'Admin Ne Poori Quantity Cancel Ki';
+    } else {
+      order.cancelledQty = (order.cancelledQty||0) + cancelQty;
+      order.qty = order.qty - cancelQty;
+    }
     render();
     await saveShared(KEYS.orders, state.orders);
   });
@@ -3764,6 +4644,13 @@ function attachHandlers(){
     b.textContent = 'Copied!';
     setTimeout(()=>{ b.textContent = orig; }, 1500);
   });
+  document.querySelectorAll('[data-refund-amount]').forEach(inp=>inp.onchange=async ()=>{
+    const order = state.orders.find(o=>o.id===inp.dataset.refundAmount);
+    if(!order) return;
+    const val = Number(inp.value);
+    order.refundAmountOverride = (val>=0 && !isNaN(val)) ? val : null;
+    await saveShared(KEYS.orders, state.orders);
+  });
   document.querySelectorAll('[data-mark-refunded]').forEach(b=>b.onclick=async ()=>{
     const order = state.orders.find(o=>o.id===b.dataset.markRefunded);
     if(!order) return;
@@ -3805,17 +4692,32 @@ function attachHandlers(){
   if(aopf) aopf.onsubmit = async (e)=>{
     e.preventDefault();
     const f = new FormData(aopf);
+    const editId = f.get('editId');
     const files = document.querySelector('#adminOwnProductForm input[name="imageFiles"]').files;
-    if(!files || !files.length){ state.msg={type:'error',text:'Kam se kam ek photo choose karein.'}; render(); return; }
+    if(!editId && (!files || !files.length)){ state.msg={type:'error',text:'Kam se kam ek photo choose karein.'}; render(); return; }
     for(const file of files){ if(file.size > 8000000){ state.msg={type:'error',text:'Photo bahut badi hai, 8MB se choti photo chunein.'}; render(); return; } }
-    let images;
-    try{ images = await Promise.all(Array.from(files).map(file=>fileToDataUrl(file))); }
-    catch(err){ state.msg={type:'error',text:'Photo upload nahi ho payi, dobara try karein.'}; render(); return; }
+    let images = null;
+    if(files && files.length){
+      try{ images = await Promise.all(Array.from(files).map(file=>fileToDataUrl(file))); }
+      catch(err){ state.msg={type:'error',text:'Photo upload nahi ho payi, dobara try karein.'}; render(); return; }
+    }
     const colorsList = (f.get('colors')||'').split(',').map(c=>c.trim()).filter(Boolean);
-    state.products.push({ id:uid(), type:'own', name:f.get('name'), price:Number(f.get('price')), image:images[0], images, whatsapp:f.get('whatsapp')||'', sellerId:null, sellerName:'Bachat Bazaar', category:f.get('category'), description:f.get('description'), stock:Number(f.get('stock')), highlights:collectHighlights(f), sizes:collectSizes(f), colors: colorsList.length?colorsList:null, reviews:[] });
+    const costPriceVal = f.get('costPrice') ? Number(f.get('costPrice')) : null;
+    if(editId){
+      const p = state.products.find(x=>x.id===editId);
+      if(p){
+        Object.assign(p, { name:f.get('name'), price:Number(f.get('price')), videoUrl:(f.get('videoUrl')||'').trim(), whatsapp:f.get('whatsapp')||'', category:f.get('category'), description:f.get('description'), stock:Number(f.get('stock')), highlights:collectHighlights(f), sizes:collectSizes(f), colors: colorsList.length?colorsList:null, costPrice: costPriceVal });
+        if(images){ p.images = images; p.image = images[0]; }
+      }
+      state.editOwnProductId = null;
+    } else {
+      state.products.push({ id:uid(), type:'own', name:f.get('name'), price:Number(f.get('price')), image:images[0], images, videoUrl:(f.get('videoUrl')||'').trim(), whatsapp:f.get('whatsapp')||'', sellerId:null, sellerName:'Bachat Bazaar', category:f.get('category'), description:f.get('description'), stock:Number(f.get('stock')), highlights:collectHighlights(f), sizes:collectSizes(f), colors: colorsList.length?colorsList:null, costPrice: costPriceVal, reviews:[] });
+    }
     await saveShared(KEYS.products, state.products);
     render();
   };
+  const cancelOwnEditBtn = document.getElementById('cancelOwnEditBtn');
+  if(cancelOwnEditBtn) cancelOwnEditBtn.onclick = ()=>{ state.editOwnProductId = null; render(); };
   // Bulk product CSV upload
   const bulkForm = document.getElementById('bulkUploadForm');
   if(bulkForm) bulkForm.onsubmit = async (e)=>{
@@ -3845,20 +4747,71 @@ function attachHandlers(){
   if(ampf) ampf.onsubmit = async (e)=>{
     e.preventDefault();
     const f = new FormData(ampf);
+    const editId = f.get('editId');
     const files = document.querySelector('#adminMeeshoProductForm input[name="imageFiles"]').files;
-    if(!files || !files.length){ state.msg={type:'error',text:'Kam se kam ek photo choose karein.',scope:'meesho'}; render(); return; }
-    if(Array.from(files).some(file=>file.size > 8000000)){ state.msg={type:'error',text:'Photo bahut badi hai, 8MB se choti photo chunein.',scope:'meesho'}; render(); return; }
-    let images;
-    try{ images = await Promise.all(Array.from(files).map(file=>fileToDataUrl(file))); }
-    catch(err){ state.msg={type:'error',text:'Photo upload nahi ho payi, dobara try karein.',scope:'meesho'}; render(); return; }
-    state.products.push({ id:uid(), type:'meesho', name:f.get('name'), price:Number(f.get('price')), image:images[0], images, meeshoLink:f.get('meeshoLink'), sellerId:null, sellerName:'Bachat Bazaar' });
+    if(!editId && (!files || !files.length)){ state.msg={type:'error',text:'Kam se kam ek photo choose karein.',scope:'meesho'}; render(); return; }
+    if(files && Array.from(files).some(file=>file.size > 8000000)){ state.msg={type:'error',text:'Photo bahut badi hai, 8MB se choti photo chunein.',scope:'meesho'}; render(); return; }
+    let images = null;
+    if(files && files.length){
+      try{ images = await Promise.all(Array.from(files).map(file=>fileToDataUrl(file))); }
+      catch(err){ state.msg={type:'error',text:'Photo upload nahi ho payi, dobara try karein.',scope:'meesho'}; render(); return; }
+    }
+    const costPriceVal = f.get('costPrice') ? Number(f.get('costPrice')) : null;
+    if(editId){
+      const p = state.products.find(x=>x.id===editId);
+      if(p){
+        Object.assign(p, { name:f.get('name'), price:Number(f.get('price')), meeshoLink:f.get('meeshoLink'), costPrice: costPriceVal });
+        if(images){ p.images = images; p.image = images[0]; }
+      }
+      state.editMeeshoProductId = null;
+    } else {
+      state.products.push({ id:uid(), type:'meesho', name:f.get('name'), price:Number(f.get('price')), image:images[0], images, meeshoLink:f.get('meeshoLink'), costPrice: costPriceVal, sellerId:null, sellerName:'Bachat Bazaar' });
+    }
     await saveShared(KEYS.products, state.products);
     state.msg = null;
     render();
   };
+  const cancelMeeshoEditBtn = document.getElementById('cancelMeeshoEditBtn');
+  if(cancelMeeshoEditBtn) cancelMeeshoEditBtn.onclick = ()=>{ state.editMeeshoProductId = null; render(); };
+  document.querySelectorAll('[data-edit-product]').forEach(b=>b.onclick=()=>{
+    if(b.dataset.editType==='own'){ state.editOwnProductId = b.dataset.editProduct; state.editMeeshoProductId = null; }
+    else { state.editMeeshoProductId = b.dataset.editProduct; state.editOwnProductId = null; }
+    render();
+    document.querySelector('.panel-card')?.scrollIntoView({behavior:'smooth'});
+  });
   document.querySelectorAll('[data-del-product]').forEach(b=>b.onclick=async ()=>{
+    if(!confirm('Kya aap sach mein ye product delete karna chahte hain?')) return;
     state.products = state.products.filter(p=>p.id!==b.dataset.delProduct);
     await saveShared(KEYS.products, state.products);
+    render();
+  });
+  // Admin: chat widget messages inbox
+  document.querySelectorAll('[data-mark-read]').forEach(b=>b.onclick=async ()=>{
+    const m = state.chatMessages.find(x=>x.id===b.dataset.markRead);
+    if(!m) return;
+    m.read = true;
+    await saveShared(KEYS.chatMessages, state.chatMessages);
+    render();
+  });
+  document.querySelectorAll('[data-del-message]').forEach(b=>b.onclick=async ()=>{
+    state.chatMessages = state.chatMessages.filter(m=>m.id!==b.dataset.delMessage);
+    await saveShared(KEYS.chatMessages, state.chatMessages);
+    render();
+  });
+  document.querySelectorAll('[data-reply-wa]').forEach(b=>b.onclick=async ()=>{
+    const m = state.chatMessages.find(x=>x.id===b.dataset.replyWa);
+    if(!m) return;
+    const input = document.querySelector(`[data-reply-input="${m.id}"]`);
+    const replyText = input ? input.value.trim() : '';
+    m.reply = replyText;
+    m.read = true;
+    await saveShared(KEYS.chatMessages, state.chatMessages);
+    if(replyText) window.open(waLink(m.phone, replyText), '_blank');
+    render();
+  });
+  // Admin: customer segmentation filter
+  document.querySelectorAll('[data-customer-filter]').forEach(b=>b.onclick=()=>{
+    state.adminCustomerFilter = b.dataset.customerFilter;
     render();
   });
   document.querySelectorAll('[data-seller-action]').forEach(b=>b.onclick=async ()=>{
@@ -3973,9 +4926,10 @@ function attachHandlers(){
     const fd = new FormData(usernameForm);
     const newUsername = fd.get('newUsername').trim();
     const confirmPassword = fd.get('confirmPassword');
-    if(confirmPassword !== state.settings.adminPassword){
+    if(!(await verifyPassword(confirmPassword, state.settings, 'adminPassword', 'adminPasswordHash', 'adminPasswordSalt'))){
       state.msg = {type:'error', text:'Current password galat hai.', scope:'adminUsername'}; render(); return;
     }
+    if(await migratePasswordIfNeeded(state.settings, confirmPassword, 'adminPassword', 'adminPasswordHash', 'adminPasswordSalt')) await saveShared(KEYS.settings, state.settings);
     if(!newUsername){
       state.msg = {type:'error', text:'Username khali nahi ho sakta.', scope:'adminUsername'}; render(); return;
     }
@@ -3987,117 +4941,231 @@ function attachHandlers(){
 }
 
 /* ================================================================
-   SELFIE TRY-ON (demo feature): customer apni selfie upload karke
-   product image ko drag/resize/rotate karke andaza laga sakta hai
-   ki product unpar kaisa lagega. Purely client-side (canvas based),
-   koi photo kahin upload/store nahi hoti - sab kuch browser mein hi
-   hota hai aur band karte hi hat jaata hai.
+   SELFIE TRY-ON — FREE IDM-VTON / Hugging Face ZeroGPU
+   ---------------------------------------------------------------
+   Gemini image generation is NOT used here. Browser directly connects
+   to the public IDM-VTON Gradio Space, so no GEMINI_API_KEY is needed.
+   Free ZeroGPU usage is limited; this is not an unlimited guarantee.
    ================================================================ */
 const tryOn = {
   productId: null,
-  productImg: null,
-  selfieImg: null,
-  x: 0, y: 0, scale: 1, rotation: 0,
-  dragging: false, dragStartX: 0, dragStartY: 0, startObjX: 0, startObjY: 0,
-  canvas: null, ctx: null
+  productImageUrl: null,
+  selfieFile: null,
+  resultDataUrl: null,
+  hfApp: null,
+  hfHandleFile: null
 };
+
+const TRYON_LOADING_MSGS = [
+  'AI model se connection ho raha hai...',
+  'Kapde ko aapki photo par fit kiya ja raha hai...',
+  'Realistic Try-On image ban rahi hai...',
+  'Bas thodi der aur...'
+];
+
+async function getTryOnApp(){
+  if(tryOn.hfApp && tryOn.hfHandleFile) return tryOn.hfApp;
+  try{
+    // Gradio JS client ko ek hi baar load karein. handle_file browser
+    // mein sirf File/Blob/URL/string ko Gradio FileData reference mein badalta hai.
+    const { Client, handle_file } = await import('https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js');
+    if(typeof Client !== 'function' || typeof handle_file !== 'function'){
+      throw new Error('Gradio client ka required handle_file helper nahi mila.');
+    }
+    tryOn.hfHandleFile = handle_file;
+    tryOn.hfApp = await Client.connect('yisol/IDM-VTON');
+    return tryOn.hfApp;
+  }catch(e){
+    console.error('Gradio client init failed:', e);
+    throw new Error('Gradio client load/connect nahi hua. Page refresh karke dobara try karein.');
+  }
+}
+
+async function tryOnHandleImage(input, label){
+  if(!input) throw new Error(`${label} image missing hai.`);
+  const type = typeof input;
+  const isUrl = type === 'string' && /^(https?:|data:|blob:)/i.test(input);
+  const isFileLike = (typeof File !== 'undefined' && input instanceof File) ||
+                     (typeof Blob !== 'undefined' && input instanceof Blob);
+  if(!isUrl && !isFileLike){
+    throw new Error(`${label} ka input valid URL, File ya Blob nahi hai.`);
+  }
+
+  // Product images kabhi-kabhi Firebase/CDN URL ke roop mein aate hain.
+  // URL ko browser Blob/File mein convert karna zyada reliable hai aur
+  // iOS Safari mein handle_file ke input validation errors se bachata hai.
+  if(isUrl && /^https?:/i.test(input)){
+    try{
+      const resp = await fetch(input, { mode:'cors' });
+      if(resp.ok){
+        const blob = await resp.blob();
+        if(blob && blob.size){
+          return tryOn.hfHandleFile(blob);
+        }
+      }
+    }catch(fetchErr){
+      console.warn(`${label} URL ko Blob mein convert nahi kar paye; URL fallback use hoga.`, fetchErr);
+    }
+  }
+  return tryOn.hfHandleFile(input);
+}
+
+async function normalizeTryOnImageFile(file, maxSize=1600){
+  if(!file || !file.type || !file.type.startsWith('image/')) return file;
+  return await new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onerror=()=>reject(new Error('Image read nahi hui.'));
+    reader.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        try{
+          let w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
+          const scale=Math.min(1,maxSize/Math.max(w,h));
+          w=Math.max(1,Math.round(w*scale)); h=Math.max(1,Math.round(h*scale));
+          const canvas=document.createElement('canvas');
+          canvas.width=w; canvas.height=h;
+          const ctx=canvas.getContext('2d',{alpha:false});
+          ctx.drawImage(img,0,0,w,h);
+          canvas.toBlob(blob=>{
+            if(!blob) return reject(new Error('Image conversion failed.'));
+            const name=(file.name||'image').replace(/\\.[^.]+$/,'')+'-normalized.jpg';
+            resolve(new File([blob],name,{type:'image/jpeg',lastModified:Date.now()}));
+          },'image/jpeg',0.92);
+        }catch(e){ reject(e); }
+      };
+      img.onerror=()=>reject(new Error('Image load nahi hui.'));
+      img.src=reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 function openTryOn(productId){
   const p = state.products.find(x=>x.id===productId);
   if(!p) return;
   tryOn.productId = productId;
-  tryOn.selfieImg = null;
+  tryOn.selfieFile = null;
+  tryOn.resultDataUrl = null;
+  tryOn.productImageUrl = (p.images && p.images[0]) || p.image;
   const overlay = document.getElementById('tryonOverlay');
-  const uploadStep = document.getElementById('tryonUploadStep');
-  const editStep = document.getElementById('tryonEditStep');
   const sub = document.getElementById('tryonSub');
-  if(sub) sub.textContent = `"${p.name}" ki selfie ke saath ek jhalak lein.`;
-  if(uploadStep) uploadStep.style.display = 'block';
-  if(editStep) editStep.style.display = 'none';
+  if(sub) sub.textContent = `"${p.name}" ko apni photo par Try-On karein.`;
+  tryOnShowStep('upload');
   const fileInput = document.getElementById('tryonFileInput');
   if(fileInput) fileInput.value = '';
-  // preload product image
-  const img = new Image();
-  img.crossOrigin = 'anonymous';
-  img.onload = ()=>{ tryOn.productImg = img; };
-  img.src = (p.images && p.images[0]) || p.image;
+  tryOnClearError();
   if(overlay) overlay.classList.add('show');
 }
 
 function closeTryOn(){
   const overlay = document.getElementById('tryonOverlay');
   if(overlay) overlay.classList.remove('show');
-  tryOn.selfieImg = null;
+  tryOn.selfieFile = null;
+  tryOn.resultDataUrl = null;
+}
+
+function tryOnShowStep(step){
+  const steps = { upload:'tryonUploadStep', generating:'tryonGeneratingStep', result:'tryonResultStep' };
+  Object.entries(steps).forEach(([key, id])=>{
+    const el = document.getElementById(id);
+    if(el) el.style.display = (key===step) ? 'block' : 'none';
+  });
+}
+
+function tryOnShowError(msg){
+  const errBox = document.getElementById('tryonError');
+  if(errBox){ errBox.textContent = msg; errBox.style.display = 'block'; }
+}
+function tryOnClearError(){
+  const errBox = document.getElementById('tryonError');
+  if(errBox){ errBox.style.display = 'none'; errBox.textContent = ''; }
 }
 
 function tryOnHandleFile(file){
   if(!file) return;
-  const reader = new FileReader();
-  reader.onload = (e)=>{
-    const img = new Image();
-    img.onload = ()=>{
-      tryOn.selfieImg = img;
-      const uploadStep = document.getElementById('tryonUploadStep');
-      const editStep = document.getElementById('tryonEditStep');
-      if(uploadStep) uploadStep.style.display = 'none';
-      if(editStep) editStep.style.display = 'block';
-      const canvas = document.getElementById('tryonCanvas');
-      tryOn.canvas = canvas;
-      tryOn.ctx = canvas.getContext('2d');
-      // canvas ko selfie ke aspect ratio ke hisaab se set karo
-      const maxW = 360;
-      const ratio = img.height / img.width;
-      canvas.width = maxW;
-      canvas.height = Math.round(maxW * Math.min(Math.max(ratio, 0.9), 1.6));
-      // product ko center mein, default size ke saath rakho
-      tryOn.x = canvas.width / 2;
-      tryOn.y = canvas.height / 2.3;
-      tryOn.scale = 1;
-      tryOn.rotation = 0;
-      const scaleRange = document.getElementById('tryonScaleRange');
-      const rotateRange = document.getElementById('tryonRotateRange');
-      if(scaleRange) scaleRange.value = 100;
-      if(rotateRange) rotateRange.value = 0;
-      drawTryOnCanvas();
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-function drawTryOnCanvas(){
-  const canvas = tryOn.canvas, ctx = tryOn.ctx;
-  if(!canvas || !ctx || !tryOn.selfieImg) return;
-  const cw = canvas.width, ch = canvas.height;
-  ctx.clearRect(0, 0, cw, ch);
-  // selfie ko "cover" style se draw karo
-  const img = tryOn.selfieImg;
-  const canvasRatio = cw / ch, imgRatio = img.width / img.height;
-  let sw, sh, sx, sy;
-  if(imgRatio > canvasRatio){ sh = img.height; sw = sh * canvasRatio; sy = 0; sx = (img.width - sw) / 2; }
-  else { sw = img.width; sh = sw / canvasRatio; sx = 0; sy = (img.height - sh) / 2; }
-  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
-  // product image ko overlay karo
-  if(tryOn.productImg){
-    const pImg = tryOn.productImg;
-    const baseSize = cw * 0.5;
-    const pw = baseSize * tryOn.scale;
-    const ph = pw * (pImg.height / pImg.width);
-    ctx.save();
-    ctx.translate(tryOn.x, tryOn.y);
-    ctx.rotate(tryOn.rotation * Math.PI / 180);
-    ctx.globalAlpha = 0.92;
-    ctx.drawImage(pImg, -pw/2, -ph/2, pw, ph);
-    ctx.restore();
+  tryOnClearError();
+  if(!file.type || !file.type.startsWith('image/')){
+    tryOnShowError('Ye file image nahi hai. Kripya JPG/PNG photo chunein.');
+    return;
   }
+  // IDM-VTON needs a reasonably clear person photo. Keep the original File
+  // so the Gradio client can upload it directly without a huge base64 payload.
+  tryOn.selfieFile = file;
+  tryOnGenerate();
 }
 
-function tryOnPointerPos(e, canvas){
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width, scaleY = canvas.height / rect.height;
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-  return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+async function tryOnGenerate(){
+  if(!tryOn.selfieFile || !tryOn.productImageUrl){
+    tryOnShowError('Selfie ya product photo missing hai.');
+    return;
+  }
+  tryOnShowStep('generating');
+  const msgEl = document.getElementById('tryonGeneratingMsg');
+  let msgIdx = 0;
+  const msgTimer = setInterval(()=>{
+    msgIdx = (msgIdx+1) % TRYON_LOADING_MSGS.length;
+    if(msgEl) msgEl.textContent = TRYON_LOADING_MSGS[msgIdx];
+  }, 4500);
+
+  try{
+    const app = await getTryOnApp();
+    if(msgEl) msgEl.textContent = 'Free AI server se connect ho raha hai...';
+
+    const normalizedPerson = await normalizeTryOnImageFile(tryOn.selfieFile, 1600);
+    const human = await tryOnHandleImage(normalizedPerson, 'Selfie');
+    const garment = await tryOnHandleImage(tryOn.productImageUrl, 'Product garment');
+    const editor = {
+      background: human,
+      layers: [],
+      composite: null
+    };
+
+    // Official IDM-VTON Space endpoint: /tryon
+    const response = await app.predict('/tryon', [
+      editor,
+      garment,
+      'a high quality clothing product photo; preserve the garment design, color and pattern',
+      true,
+      false,
+      30,
+      42
+    ]);
+
+    const finalResult = response && response.data;
+    if(!finalResult) throw new Error('AI se result image nahi mili.');
+
+    // IDM-VTON returns [result_image, mask_image]. Gradio client may return
+    // a FileData object or an array/object depending on Space client version.
+    let resultFile = Array.isArray(finalResult) ? finalResult[0] : finalResult;
+    if(Array.isArray(resultFile)) resultFile = resultFile[0];
+    if(resultFile && resultFile.url){
+      tryOn.resultDataUrl = resultFile.url;
+    } else if(resultFile && resultFile.path){
+      tryOn.resultDataUrl = resultFile.path;
+    } else if(typeof resultFile === 'string'){
+      tryOn.resultDataUrl = resultFile;
+    } else {
+      throw new Error('Result image ka URL nahi mila.');
+    }
+
+    const resultImg = document.getElementById('tryonResultImg');
+    if(resultImg) resultImg.src = tryOn.resultDataUrl;
+    clearInterval(msgTimer);
+    tryOnShowStep('result');
+  }catch(err){
+    clearInterval(msgTimer);
+    console.error('IDM-VTON Try-on failed:', err);
+    tryOnShowStep('upload');
+    const text = String(err && err.message || err || '');
+    if(/quota|limit|zerogpu|duration|rate/i.test(text)){
+      tryOnShowError('Free AI server ka quota abhi full hai. Thodi der baad dobara try karein.');
+    }else if(/connect|network|fetch|cors/i.test(text)){
+      tryOnShowError('Free AI server se connection nahi ho paaya. Internet check karke dobara try karein.');
+    }else{
+      const clean = text.replace(/\s+/g,' ').slice(0,220);
+      tryOnShowError(clean ? `AI Try-On error: ${clean}` : 'AI Try-On abhi generate nahi ho paya. Dobara try karein.');
+    }
+  }
 }
 
 function setupTryOnStaticHandlers(){
@@ -4105,64 +5173,237 @@ function setupTryOnStaticHandlers(){
   const closeBtn = document.getElementById('tryonCloseBtn');
   const uploadBox = document.getElementById('tryonUploadBox');
   const fileInput = document.getElementById('tryonFileInput');
-  const canvas = document.getElementById('tryonCanvas');
-  const scaleRange = document.getElementById('tryonScaleRange');
-  const rotateRange = document.getElementById('tryonRotateRange');
   const retakeBtn = document.getElementById('tryonRetakeBtn');
   const downloadBtn = document.getElementById('tryonDownloadBtn');
 
   if(closeBtn) closeBtn.onclick = closeTryOn;
   if(overlay) overlay.onclick = (e)=>{ if(e.target === overlay) closeTryOn(); };
-  if(uploadBox) uploadBox.onclick = ()=>{ if(fileInput) fileInput.click(); };
+  if(uploadBox){
+    uploadBox.onclick = ()=>{ if(fileInput) fileInput.click(); };
+    uploadBox.onkeydown = (e)=>{
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        if(fileInput) fileInput.click();
+      }
+    };
+  }
   if(fileInput) fileInput.onchange = (e)=>{ tryOnHandleFile(e.target.files[0]); };
 
-  if(scaleRange) scaleRange.oninput = ()=>{ tryOn.scale = Number(scaleRange.value) / 100; drawTryOnCanvas(); };
-  if(rotateRange) rotateRange.oninput = ()=>{ tryOn.rotation = Number(rotateRange.value); drawTryOnCanvas(); };
-
   if(retakeBtn) retakeBtn.onclick = ()=>{
-    const uploadStep = document.getElementById('tryonUploadStep');
-    const editStep = document.getElementById('tryonEditStep');
-    if(uploadStep) uploadStep.style.display = 'block';
-    if(editStep) editStep.style.display = 'none';
-    tryOn.selfieImg = null;
+    tryOn.selfieFile = null;
+    tryOn.resultDataUrl = null;
+    tryOnShowStep('upload');
+    tryOnClearError();
     if(fileInput) fileInput.value = '';
   };
 
-  if(downloadBtn) downloadBtn.onclick = ()=>{
-    if(!tryOn.canvas) return;
-    const link = document.createElement('a');
-    link.download = 'bachat-bazaar-tryon.png';
-    link.href = tryOn.canvas.toDataURL('image/png');
-    link.click();
+  if(downloadBtn) downloadBtn.onclick = async ()=>{
+    if(!tryOn.resultDataUrl) return;
+    try{
+      const a = document.createElement('a');
+      a.href = tryOn.resultDataUrl;
+      a.download = 'bachat-bazaar-tryon.png';
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }catch(e){ window.open(tryOn.resultDataUrl, '_blank'); }
   };
-
-  if(canvas){
-    const onDown = (e)=>{
-      if(!tryOn.selfieImg) return;
-      e.preventDefault();
-      const pos = tryOnPointerPos(e, canvas);
-      tryOn.dragging = true;
-      tryOn.dragStartX = pos.x; tryOn.dragStartY = pos.y;
-      tryOn.startObjX = tryOn.x; tryOn.startObjY = tryOn.y;
-    };
-    const onMove = (e)=>{
-      if(!tryOn.dragging) return;
-      e.preventDefault();
-      const pos = tryOnPointerPos(e, canvas);
-      tryOn.x = tryOn.startObjX + (pos.x - tryOn.dragStartX);
-      tryOn.y = tryOn.startObjY + (pos.y - tryOn.dragStartY);
-      drawTryOnCanvas();
-    };
-    const onUp = ()=>{ tryOn.dragging = false; };
-    canvas.addEventListener('mousedown', onDown);
-    canvas.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onUp);
-    canvas.addEventListener('touchstart', onDown, {passive:false});
-    canvas.addEventListener('touchmove', onMove, {passive:false});
-    window.addEventListener('touchend', onUp);
-  }
 }
 document.addEventListener('DOMContentLoaded', setupTryOnStaticHandlers);
+
+/* ================================================================
+   AI STYLE ADVISOR — Try-On ke Gemini setup ko text-advice ke liye
+   aage badhaya gaya hai. Product ki photo + naam + category Netlify
+   Function ko bhejte hain, jo Gemini se structured (JSON) styling
+   tips laakar deta hai — blouse/top, jewellery, footwear, occasion.
+   ================================================================ */
+const STYLE_ADVISOR_FUNCTION_URL = '/.netlify/functions/generateStyleAdvice';
+const styleAdvisor = { productId: null, cache: {} };
+
+function openStyleAdvisor(productId){
+  const p = state.products.find(x=>x.id===productId);
+  if(!p) return;
+  styleAdvisor.productId = productId;
+  const overlay = document.getElementById('styleAdvisorOverlay');
+  const sub = document.getElementById('styleAdvisorSub');
+  if(sub) sub.textContent = `"${p.name}" ke saath kya suit karega, AI se jaanein.`;
+  styleAdvisorClearError();
+  if(styleAdvisor.cache[productId]){
+    styleAdvisorRenderResult(styleAdvisor.cache[productId]);
+  } else {
+    styleAdvisorShowStep('idle');
+  }
+  if(overlay) overlay.classList.add('show');
+}
+function closeStyleAdvisor(){
+  const overlay = document.getElementById('styleAdvisorOverlay');
+  if(overlay) overlay.classList.remove('show');
+}
+function styleAdvisorShowStep(step){
+  const steps = { idle:'styleAdvisorIdleStep', generating:'styleAdvisorGeneratingStep', result:'styleAdvisorResultStep' };
+  Object.entries(steps).forEach(([key,id])=>{
+    const el = document.getElementById(id);
+    if(el) el.style.display = (key===step) ? 'block' : 'none';
+  });
+}
+function styleAdvisorShowError(msg){
+  const errBox = document.getElementById('styleAdvisorError');
+  if(errBox){ errBox.textContent = msg; errBox.style.display = 'block'; }
+}
+function styleAdvisorClearError(){
+  const errBox = document.getElementById('styleAdvisorError');
+  if(errBox){ errBox.style.display='none'; errBox.textContent=''; }
+}
+async function styleAdvisorGenerate(){
+  const p = state.products.find(x=>x.id===styleAdvisor.productId);
+  if(!p) return;
+  styleAdvisorClearError();
+  styleAdvisorShowStep('generating');
+  try{
+    const res = await fetch(STYLE_ADVISOR_FUNCTION_URL, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        productImage: (p.images && p.images[0]) || p.image,
+        productName: p.name,
+        category: p.category || '',
+        description: p.description || ''
+      })
+    });
+    let data = null;
+    try{ data = await res.json(); }catch(e){ /* body JSON nahi tha, neeche generic handle hoga */ }
+    if(!res.ok){
+      styleAdvisorShowStep('idle');
+      styleAdvisorShowError((data && data.error) || ('Server error: ' + res.status));
+      return;
+    }
+    if(!data || !data.advice) throw new Error('Suggestion nahi mili.');
+    styleAdvisor.cache[styleAdvisor.productId] = data.advice;
+    styleAdvisorRenderResult(data.advice);
+  }catch(err){
+    console.error('Style advisor failed:', err);
+    styleAdvisorShowStep('idle');
+    styleAdvisorShowError('Abhi suggestion nahi mil paayi. Kripya thodi der baad dobara koshish karein.');
+  }
+}
+function styleAdvisorRenderResult(advice){
+  const body = document.getElementById('styleAdvisorResultBody');
+  if(body){
+    const rows = [
+      ['top_pairing','👚 Blouse / Top'],
+      ['jewellery','💍 Jewellery'],
+      ['footwear','👡 Footwear'],
+      ['hairstyle','💇 Hairstyle'],
+      ['occasion','🎉 Occasion'],
+      ['quick_tip','💡 Quick Tip'],
+    ];
+    body.innerHTML = rows.filter(([key])=>advice[key]).map(([key,label])=>
+      `<div class="style-advice-card"><div class="sa-label">${label}</div><div class="sa-text">${esc(advice[key])}</div></div>`
+    ).join('');
+  }
+  styleAdvisorShowStep('result');
+}
+function setupStyleAdvisorStaticHandlers(){
+  const overlay = document.getElementById('styleAdvisorOverlay');
+  const closeBtn = document.getElementById('styleAdvisorCloseBtn');
+  const getBtn = document.getElementById('styleAdvisorGetBtn');
+  const retryBtn = document.getElementById('styleAdvisorRetryBtn');
+  if(closeBtn) closeBtn.onclick = closeStyleAdvisor;
+  if(overlay) overlay.onclick = (e)=>{ if(e.target===overlay) closeStyleAdvisor(); };
+  if(getBtn){
+    getBtn.onclick = styleAdvisorGenerate;
+    getBtn.onkeydown = (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); styleAdvisorGenerate(); } };
+  }
+  if(retryBtn) retryBtn.onclick = ()=>{ delete styleAdvisor.cache[styleAdvisor.productId]; styleAdvisorShowStep('idle'); };
+}
+document.addEventListener('DOMContentLoaded', setupStyleAdvisorStaticHandlers);
+
+/* ================================================================
+   REELS SHOWCASE — Homepage par vertical swipe-through video viewer,
+   Instagram Reels jaisa. Sirf un products ko dikhata hai jinme admin/
+   seller ne "Product Video/Reel Link" field bhari ho.
+   ================================================================ */
+function reelMediaHtml(url){
+  const u = (url||'').trim();
+  const ytMatch = u.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w-]{6,})/);
+  if(ytMatch){
+    return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&mute=1&playsinline=1&rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  }
+  const igMatch = u.match(/instagram\.com\/(?:reel|p)\/([\w-]+)/);
+  if(igMatch){
+    return `<iframe src="https://www.instagram.com/reel/${igMatch[1]}/embed" allowfullscreen></iframe>`;
+  }
+  if(/\.(mp4|webm|ogg)(\?.*)?$/i.test(u)){
+    return `<video src="${esc(u)}" muted loop playsinline autoplay controls></video>`;
+  }
+  return `<div style="color:#fff;text-align:center;padding:20px;">Video open nahi ho paayi. <a href="${esc(u)}" target="_blank" rel="noopener" style="color:#FFD9A0;">Yahan dekhein</a></div>`;
+}
+function openReelsViewer(startProductId){
+  const reelProducts = state.products.filter(p => (p.type==='meesho' || !p.sellerId || p.status==='approved') && p.videoUrl && p.videoUrl.trim());
+  if(!reelProducts.length) return;
+  const scrollEl = document.getElementById('reelsScroll');
+  const wished = state.wishlist;
+  scrollEl.innerHTML = reelProducts.map(p=>{
+    const priceStr = (p.sizes && p.sizes.length) ? `₹${Math.min(...p.sizes.map(s=>s.price))} se shuru` : `₹${p.price}`;
+    return `<div class="reel-slide" data-reel-slide="${p.id}">
+      ${reelMediaHtml(p.videoUrl)}
+      <div class="reel-info">
+        <div class="ri-name">${esc(p.name)}</div>
+        <div class="ri-price">${priceStr}</div>
+        <div class="ri-btns">
+          <button type="button" class="ri-view" data-reel-view="${p.id}">Product Dekhein</button>
+          <button type="button" class="ri-wish" data-reel-wish="${p.id}">${wished.includes(p.id) ? '❤️ Wishlisted' : '🤍 Wishlist'}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  const overlay = document.getElementById('reelsViewer');
+  if(overlay) overlay.classList.add('show');
+  const startEl = scrollEl.querySelector(`[data-reel-slide="${startProductId}"]`);
+  if(startEl) startEl.scrollIntoView({ block:'start' });
+  scrollEl.querySelectorAll('[data-reel-view]').forEach(b=>b.onclick=()=>{
+    closeReelsViewer();
+    state.selectedProductId = b.dataset.reelView;
+    state.selectedSize = null;
+    state.selectedColor = null;
+    nav('productDetail');
+  });
+  scrollEl.querySelectorAll('[data-reel-wish]').forEach(b=>b.onclick=async ()=>{
+    const id = b.dataset.reelWish;
+    const i = state.wishlist.indexOf(id);
+    if(i===-1) state.wishlist.push(id); else state.wishlist.splice(i,1);
+    savePersonal('wishlist', state.wishlist);
+    b.textContent = state.wishlist.includes(id) ? '❤️ Wishlisted' : '🤍 Wishlist';
+  });
+  setupReelsAutoplay(scrollEl);
+}
+function closeReelsViewer(){
+  const overlay = document.getElementById('reelsViewer');
+  if(overlay) overlay.classList.remove('show');
+  const scrollEl = document.getElementById('reelsScroll');
+  if(scrollEl){
+    scrollEl.querySelectorAll('video').forEach(v=>{ try{ v.pause(); }catch(e){} });
+    scrollEl.innerHTML = '';
+  }
+}
+function setupReelsAutoplay(scrollEl){
+  const videos = scrollEl.querySelectorAll('video');
+  if(!videos.length) return;
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const v = entry.target;
+      if(entry.isIntersecting && entry.intersectionRatio > 0.6){ v.play().catch(()=>{}); }
+      else{ v.pause(); }
+    });
+  }, { root: scrollEl, threshold: [0, 0.6, 1] });
+  videos.forEach(v=>io.observe(v));
+}
+function setupReelsStaticHandlers(){
+  const closeBtn = document.getElementById('reelsViewerCloseBtn');
+  if(closeBtn) closeBtn.onclick = closeReelsViewer;
+}
+document.addEventListener('DOMContentLoaded', setupReelsStaticHandlers);
 
 init();
 
