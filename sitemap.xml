@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  IMPORTANT: "YOUR-DOMAIN-HERE" ko apni actual Netlify/custom domain se
+  replace karein (jaise: bachat-bazaar.netlify.app).
+  Products dynamic hain (Firestore se aate hain), isliye unke individual
+  pages is static sitemap mein list nahi ho sakte — lekin Product +
+  Breadcrumb JSON-LD schema (jo site mein already add ho chuka hai) Google
+  ko har product ka detail crawl karne mein madad karta hai jab wo
+  homepage se link follow karta hai.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://YOUR-DOMAIN-HERE.netlify.app/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
