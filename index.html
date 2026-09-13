@@ -552,6 +552,12 @@
    Firebase Console (console.firebase.google.com) > Project Settings >
    General > "Your apps" > Web app se ye object copy karke yahan paste karein.
    ================================================================ */
+// Backend functions (adminLogin, adminResetPassword, generateStyleAdvice,
+// trackOrderStatus, compareProducts, suggestFestivalStock) ab Render.com
+// par host hoti hain, Netlify par nahi. Sirf yahan URL badalne se sab
+// jagah update ho jaata hai.
+const BACKEND_URL = 'https://bachat-bazaar.onrender.com/api';
+
 const firebaseConfig = {
   apiKey: "AIzaSyBywVhaiSE7u2YHpcFBVTTXY2Y6dbHiLrM",
   authDomain: "bachat-bazaar-6a9ff.firebaseapp.com",
@@ -4301,7 +4307,7 @@ function attachHandlers(){
     const username = f.get('username');
     const adminPasswordInput = f.get('password');
     try{
-      const res = await fetch('/.netlify/functions/adminLogin', {
+      const res = await fetch(`${BACKEND_URL}/adminLogin`, {
         method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ username, password: adminPasswordInput })
       });
@@ -4365,7 +4371,7 @@ function attachHandlers(){
     e.preventDefault();
     const fd = new FormData(af3);
     try{
-      const res = await fetch('/.netlify/functions/adminResetPassword', {
+      const res = await fetch(`${BACKEND_URL}/adminResetPassword`, {
         method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ username: state.adminForgotUsername || '', answer: state.adminForgotAnswer || '', newPassword: fd.get('password') })
       });
@@ -5218,7 +5224,7 @@ document.addEventListener('DOMContentLoaded', setupTryOnStaticHandlers);
    Function ko bhejte hain, jo Gemini se structured (JSON) styling
    tips laakar deta hai — blouse/top, jewellery, footwear, occasion.
    ================================================================ */
-const STYLE_ADVISOR_FUNCTION_URL = '/.netlify/functions/generateStyleAdvice';
+const STYLE_ADVISOR_FUNCTION_URL = `${BACKEND_URL}/generateStyleAdvice`;
 const styleAdvisor = { productId: null, cache: {} };
 
 function openStyleAdvisor(productId){
