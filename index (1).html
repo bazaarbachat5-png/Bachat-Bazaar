@@ -3231,6 +3231,20 @@ function adminSettings(){
       <input type="password" name="confirmPassword" required></div>
       <button class="btn-primary" type="submit" style="width:auto;padding:10px 22px;">Username Update Karein</button>
     </form>
+  </div>
+  <div class="panel-card">
+    <h3>Admin Password Badlein</h3>
+    <p style="color:var(--muted);font-size:13px;margin:-6px 0 14px;">Agar aap abhi bhi default password (<b>admin123</b>) use kar rahe hain, to isse turant badal lein — security ke liye zaroori hai.</p>
+    ${state.msg && state.msg.scope==='adminPassword' ? msgBox(state.msg) : ''}
+    <form id="adminPasswordForm">
+      <div class="field"><label>Current Password</label>
+      <input type="password" name="currentPassword" required></div>
+      <div class="field"><label>Naya Password</label>
+      <input type="password" name="newPassword" minlength="6" required></div>
+      <div class="field"><label>Naya Password Dobara Likhein</label>
+      <input type="password" name="confirmNewPassword" minlength="6" required></div>
+      <button class="btn-primary" type="submit" style="width:auto;padding:10px 22px;">Password Update Karein</button>
+    </form>
   </div>`;
 }
 
@@ -4942,6 +4956,35 @@ function attachHandlers(){
     state.settings.adminUsername = newUsername;
     await saveShared(KEYS.settings, state.settings);
     state.msg = {type:'ok', text:'Username update ho gaya.', scope:'adminUsername'};
+    render();
+  };
+
+  const passwordForm = document.getElementById('adminPasswordForm');
+  if(passwordForm) passwordForm.onsubmit = async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(passwordForm);
+    const currentPassword = fd.get('currentPassword');
+    const newPassword = fd.get('newPassword');
+    const confirmNewPassword = fd.get('confirmNewPassword');
+    if(!(await verifyPassword(currentPassword, state.settings, 'adminPassword', 'adminPasswordHash', 'adminPasswordSalt'))){
+      state.msg = {type:'error', text:'Current password galat hai.', scope:'adminPassword'}; render(); return;
+    }
+    if(newPassword.length < 6){
+      state.msg = {type:'error', text:'Naya password kam se kam 6 characters ka hona chahiye.', scope:'adminPassword'}; render(); return;
+    }
+    if(newPassword !== confirmNewPassword){
+      state.msg = {type:'error', text:'Dono naye password match nahi kar rahe.', scope:'adminPassword'}; render(); return;
+    }
+    if(newPassword === 'admin123'){
+      state.msg = {type:'error', text:'Default password (admin123) dobara set nahi kar sakte — koi aur strong password chunein.', scope:'adminPassword'}; render(); return;
+    }
+    const { passwordHash, passwordSalt } = await makePasswordRecord(newPassword);
+    state.settings.adminPasswordHash = passwordHash;
+    state.settings.adminPasswordSalt = passwordSalt;
+    delete state.settings.adminPassword;
+    await saveShared(KEYS.settings, state.settings);
+    state.msg = {type:'ok', text:'Password successfully update ho gaya. Agli baar isi naye password se login karein.', scope:'adminPassword'};
+    passwordForm.reset();
     render();
   };
 }
