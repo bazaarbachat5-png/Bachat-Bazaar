@@ -1,7 +1,0 @@
-[build]
-  functions = "netlify/functions"
-  command = "npm install --prefix netlify/functions"
-
-[functions]
-  node_bundler = "esbuild"
-  external_node_modules = ["firebase-admin"]
