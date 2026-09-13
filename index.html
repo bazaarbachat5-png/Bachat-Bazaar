@@ -1177,6 +1177,13 @@ async function init(){
     const linkedProduct = state.products.find(x=>x.id===hashMatch[1]);
     if(linkedProduct){ state.selectedProductId = linkedProduct.id; state.view = 'productDetail'; }
   }
+  // Seller/Admin ab nav bar mein nahi dikhte — sirf isi secret URL se access hota hai (Amazon Seller Central jaisa)
+  else if(window.location.hash === '#seller-login'){
+    state.view = state.sellerSession ? 'sellerDash' : 'sellerLogin';
+  }
+  else if(window.location.hash === '#admin-login'){
+    state.view = state.adminSession ? 'adminDash' : 'adminLogin';
+  }
   render();
   startSlider();
   startOrderPolling();
@@ -1531,8 +1538,7 @@ function renderNav(){
     <button data-nav="trackOrder" class="${state.view==='trackOrder'?'active':''}">${t('nav_track')}</button>
     <button data-nav="wishlist" class="${state.view==='wishlist'?'active':''}">${t('nav_wishlist')}${wishCount?' ('+wishCount+')':''}</button>
     <button data-nav="${customerLoggedIn?'customerDash':'customerLogin'}" class="${state.view==='customerLogin'||state.view==='customerSignup'||state.view==='customerForgot'||state.view==='customerDash'?'active':''}">${customerLoggedIn?t('nav_account'):t('nav_login')}</button>
-    <button data-nav="${sellerLoggedIn?'sellerDash':'sellerLogin'}" class="${state.view==='sellerLogin'||state.view==='sellerSignup'||state.view==='sellerForgot'||state.view==='sellerDash'?'active':''}">${sellerLoggedIn?t('nav_seller_panel'):t('nav_seller_login')}${sellerPendingCount?` <span class="nav-badge">${sellerPendingCount}</span>`:''}</button>
-    <button data-nav="${adminLoggedIn?'adminDash':'adminLogin'}" class="${state.view==='adminLogin'||state.view==='adminForgot'||state.view==='adminDash'?'active':''}">${adminLoggedIn?t('nav_admin_panel'):t('nav_admin')}${adminPendingCount?` <span class="nav-badge">${adminPendingCount}</span>`:''}</button>
+    <!-- Seller/Admin buttons ab yahan nahi dikhte (Amazon Seller Central jaisa) — sirf seedha URL se access hota hai: #seller-login aur #admin-login. Login ke baad bhi ye button hide hi rehta hai; seller/admin ko wapas apne dashboard tak jaane ke liye wahi URL dobara kholna hoga. -->
     <button type="button" id="langToggleBtn" class="theme-toggle-btn" title="Language" style="background:rgba(255,255,255,.12);">${state.lang==='hi'?'EN':'हिं'}</button>
     <button type="button" id="themeToggleBtn" class="theme-toggle-btn" title="Dark/Light Mode" style="background:rgba(255,255,255,.12);">${state.theme==='dark'?'☀️':'🌙'}</button>
   `;
@@ -3417,7 +3423,7 @@ const CHAT_FAQS = [
   {q:'Order Kaise Karein?', a:'Product page par jaake "WhatsApp Par Order Karein" button dabayein, apni details bharein aur order confirm ho jayega.'},
   {q:'Delivery Mein Kitna Time Lagta Hai?', a:'Aam taur par delivery 3-7 din mein ho jaati hai, location ke hisaab se time thoda badal sakta hai.'},
   {q:'Return/Refund Policy Kya Hai?', a:'Order deliver hone ke baad agar koi problem ho to "Order Track" page se ya yahan message karke return/refund request kar sakte hain.'},
-  {q:'Seller Kaise Banein?', a:'Upar "Seller Login" se "Naya Account Banayein" par jaakar signup karein, admin approval ke baad aap apne products list kar sakenge.'}
+  {q:'Seller Kaise Banein?', a:'Seller banne ke liye humein WhatsApp par sampark karein — hum aapko seller signup ka link bhejenge. Approval ke baad aap apne products list kar sakenge.'}
 ];
 function renderChatWidget(){
   const root = document.getElementById('chatWidgetRoot');
